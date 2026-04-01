@@ -1,161 +1,171 @@
 ---
-const tiers = [
-  { range: [1, 5], prefix: 'Copper', icon: '🟤' },
-  { range: [6, 10], prefix: 'Bronze', icon: '🥉' },
-  { range: [11, 15], prefix: 'Silver', icon: '⚪' },
-  { range: [16, 20], prefix: 'Gold', icon: '🥇' },
-  { range: [21, 25], prefix: 'Platinum', icon: '💎' },
-  { range: [26, 30], prefix: 'Emerald', icon: '💚' },
-  { range: [31, 35], prefix: 'Diamond', icon: '♦️' },
-  { range: [36, 40], prefix: 'Ruby', icon: '🔴' },
-  { range: [41, 45], prefix: 'Sapphire', icon: '🔵' },
-  { range: [46, 50], prefix: 'Obsidian', icon: '⬛' },
-  { range: [51, 55], prefix: 'Onyx', icon: '🖤' },
-  { range: [56, 60], prefix: 'Titanium', icon: '🩶' },
-  { range: [61, 65], prefix: 'Mythic', icon: '🌟' },
-  { range: [66, 70], prefix: 'Ethereal', icon: '🌀' },
-  { range: [71, 75], prefix: 'Celestial', icon: '🌠' },
-  { range: [76, 80], prefix: 'Legendary', icon: '🏅' },
-  { range: [81, 85], prefix: 'Ascendant', icon: '🔥' },
-  { range: [86, 90], prefix: 'Immortal', icon: '👑' },
-  { range: [91, 95], prefix: 'Transcendent', icon: '✨' },
-  { range: [96, 99], prefix: 'Apex', icon: '⚡' },
-  { range: [100, 100], prefix: 'MAXED', icon: '🏆' },
-];
-
-const numerals = ['I', 'II', 'III', 'IV', 'V'];
 const currentLevel = 37;
 
 const rewards = [
-  '$5 Bonus', '$10 Bonus', '5 Free Spins', '$15 Bonus', '10 FS + Rakeback Boost',
-  '$20 Bonus', '15 Free Spins', '$25 Bonus', '20 FS + Cashback Boost', '$50 Bonus',
-  '$30 Bonus', '25 Free Spins', '$35 Bonus', '$40 Bonus', '30 FS + Rakeback Boost',
-  '$60 Bonus', '35 Free Spins', '$75 Bonus', '40 FS + Cashback Boost', '$100 Bonus',
+  '$5', '$10', '5 FS', '$15', '10 FS',
+  '$20', '15 FS', '$25', '20 FS', '$50',
+  '$30', '25 FS', '$35', '$40', '30 FS',
+  '$60', '35 FS', '$75', '40 FS', '$100',
 ];
 
 const levels = Array.from({ length: 100 }, (_, i) => {
   const num = i + 1;
-  const tier = tiers.find(t => num >= t.range[0] && num <= t.range[1])!;
-  const subIndex = (num - tier.range[0]) % 5;
-  const name = num === 100 ? 'MAXED' : `${tier.prefix} ${numerals[subIndex]}`;
-  const isMilestone = num % 5 === 0 || num === 1 || num === currentLevel;
-  const reward = rewards[Math.floor((num - 1) / 5) % rewards.length];
+  const xpRequired = num * 1000;
+  const reward = rewards[(num - 1) % rewards.length];
   return {
-    num, name, icon: tier.icon, isMilestone, reward,
+    num,
+    xpRequired,
+    reward,
     completed: num < currentLevel,
     current: num === currentLevel,
     locked: num > currentLevel,
+    pctFill: num < currentLevel ? 100 : num === currentLevel ? 67 : 0,
   };
 });
 ---
+<!-- VIP Levels Overlay -->
 <div class="vip-overlay" id="vip-overlay">
   <div class="vip-panel">
     <div class="vip-panel-header">
-      <h2>VIP Levels</h2>
-      <div style="display: flex; gap: 8px; align-items: center;">
+      <h2>VIP Progression</h2>
+      <div style="display:flex;gap:8px;align-items:center;">
         <button class="info-btn" id="tc-toggle-btn" title="Terms & Conditions">i</button>
         <button class="vip-panel-close" id="vip-panel-close">&times;</button>
       </div>
     </div>
 
-    <!-- Left: Vertical path (Marvel Snap style) -->
-    <div class="vip-path-scroll" id="vip-path-scroll">
-      <div class="vip-path">
+    <div class="vip-panel-body">
+      <!-- Left: Horizontal charging bars -->
+      <div class="vip-levels-scroll" id="vip-levels-scroll">
         {levels.map(l => (
-          <div class={`vip-node ${l.isMilestone ? 'milestone' : ''} ${l.completed ? 'completed' : ''} ${l.current ? 'current' : ''} ${l.locked ? 'locked' : ''}`}
+          <div class={`lvl-row ${l.completed ? 'completed' : ''} ${l.current ? 'current' : ''} ${l.locked ? 'locked' : ''}`}
                data-level={l.num}>
-            <div class="vip-node-dot">
-              {l.isMilestone
-                ? <span class="node-emoji">{l.icon}</span>
-                : <span class="node-num">{l.num}</span>
-              }
+            <div class="lvl-num">{l.num}</div>
+            <div class="lvl-bar-wrap">
+              <div class="lvl-bar-track">
+                <div class="lvl-bar-fill" style={`width:${l.pctFill}%`}></div>
+              </div>
+              <div class="lvl-meta">
+                <span class="lvl-name">Level {l.num}</span>
+                <span class="lvl-xp">{l.current ? '6,720' : l.completed ? l.xpRequired.toLocaleString() : '0'} / {l.xpRequired.toLocaleString()} XP</span>
+              </div>
             </div>
-            <div class="vip-node-card">
-              <div class="node-name">{l.name}</div>
-              <div class="node-reward">{l.reward}</div>
-            </div>
+            <div class="lvl-reward">{l.reward}</div>
           </div>
         ))}
       </div>
+
+      <!-- Right: Perks + next reward -->
+      <div class="vip-perks-panel">
+        <div class="vip-perks-title">Level 37 — Active Perks</div>
+
+        <div class="perk-card perk-rakeback">
+          <div class="perk-top">
+            <span class="perk-label">Rakeback</span>
+            <span class="perk-value">12.5%</span>
+          </div>
+          <div class="perk-desc">12.5% of house edge returned per wager, credited instantly.</div>
+        </div>
+
+        <div class="perk-card perk-cashback">
+          <div class="perk-top">
+            <span class="perk-label">Cashback</span>
+            <span class="perk-value">7.0%</span>
+          </div>
+          <div class="perk-desc">Weekly cashback on net losses. No wagering requirement.</div>
+        </div>
+
+        <div class="perk-card perk-spins">
+          <div class="perk-top">
+            <span class="perk-label">Free Spins</span>
+            <span class="perk-value">45/mo</span>
+          </div>
+          <div class="perk-desc">Monthly spins at $0.20 value. Cash winnings.</div>
+        </div>
+
+        <div class="perk-card perk-claim">
+          <div class="perk-top">
+            <span class="perk-label">Claimable</span>
+            <span class="perk-value">$182.40</span>
+          </div>
+          <div class="perk-desc">Accumulated from rakeback, cashback, and level-ups.</div>
+        </div>
+
+        <div class="vip-perks-title" style="margin-top:10px;">Next — Level 38</div>
+        <div class="perk-card">
+          <div class="perk-top">
+            <span class="perk-label">Unlock</span>
+            <span class="perk-value" style="color:var(--accent);">$35</span>
+          </div>
+          <div class="perk-desc">$35 bonus + Rakeback stays at 12.5%.</div>
+        </div>
+      </div>
     </div>
 
-    <!-- Right: Current perks + potential rewards -->
-    <div class="vip-perks-panel">
-      <div class="vip-perks-title">Level 37 — Active Perks</div>
-
-      <div class="perk-card perk-rakeback">
-        <div class="perk-top">
-          <span class="perk-label">Rakeback</span>
-          <span class="perk-value">12.5%</span>
-        </div>
-        <div class="perk-desc">Earn back 12.5% of house edge on every wager. Credited instantly.</div>
-      </div>
-
-      <div class="perk-card perk-cashback">
-        <div class="perk-top">
-          <span class="perk-label">Cashback</span>
-          <span class="perk-value">7.0%</span>
-        </div>
-        <div class="perk-desc">Weekly cashback on net losses. No wagering requirement.</div>
-      </div>
-
-      <div class="perk-card perk-spins">
-        <div class="perk-top">
-          <span class="perk-label">Free Spins</span>
-          <span class="perk-value">45 / mo</span>
-        </div>
-        <div class="perk-desc">Monthly spins at $0.20 value. Winnings credited as cash.</div>
-      </div>
-
-      <div class="perk-card perk-claim">
-        <div class="perk-top">
-          <span class="perk-label">Claimable</span>
-          <span class="perk-value">$182.40</span>
-        </div>
-        <div class="perk-desc">Accumulated rewards from rakeback, cashback, and level-up bonuses.</div>
-      </div>
-
-      <div class="vip-perks-title" style="margin-top: 12px;">Next Reward — Level 40</div>
-
-      <div class="perk-card">
-        <div class="perk-top">
-          <span class="perk-label">Level-up Bonus</span>
-          <span class="perk-value" style="color: var(--accent);">$100</span>
-        </div>
-        <div class="perk-desc">Reach Ruby I to unlock $100 bonus + 15% Rakeback + 8% Cashback.</div>
-      </div>
-    </div>
-
-    <!-- T&C Expandable Panel -->
+    <!-- T&C Panel -->
     <div class="tc-panel" id="tc-panel">
       <div class="tc-inner">
         <h4>XP Contribution by Game Category</h4>
-        <p>XP is earned as a function of turnover. Different game categories contribute at different rates:</p>
+        <p>XP is earned as a function of turnover:</p>
         <table>
-          <thead>
-            <tr><th>Category</th><th>XP per $1 Turnover</th><th>Contribution</th></tr>
-          </thead>
+          <thead><tr><th>Category</th><th>XP / $1</th><th>Rate</th></tr></thead>
           <tbody>
-            <tr><td>Slots</td><td>1.0 XP</td><td>100%</td></tr>
-            <tr><td>Live Casino</td><td>0.5 XP</td><td>50%</td></tr>
-            <tr><td>Table Games</td><td>0.25 XP</td><td>25%</td></tr>
-            <tr><td>Sports Betting</td><td>0.15 XP</td><td>15%</td></tr>
-            <tr><td>Crash / Originals</td><td>0.75 XP</td><td>75%</td></tr>
+            <tr><td>Slots</td><td>1.0</td><td>100%</td></tr>
+            <tr><td>Live Casino</td><td>0.5</td><td>50%</td></tr>
+            <tr><td>Table Games</td><td>0.25</td><td>25%</td></tr>
+            <tr><td>Sports</td><td>0.15</td><td>15%</td></tr>
+            <tr><td>Crash / Originals</td><td>0.75</td><td>75%</td></tr>
           </tbody>
         </table>
-
-        <h4>Rakeback Terms</h4>
-        <p>Rakeback is calculated on the theoretical house edge of each wager, not the outcome. It is credited instantly after each settled bet. Rate increases with VIP level.</p>
-
-        <h4>Cashback Terms</h4>
-        <p>Weekly cashback is calculated on net losses (deposits minus withdrawals minus pending balance) from Monday 00:00 UTC to Sunday 23:59 UTC. Credited the following Monday. No wagering requirement.</p>
-
-        <h4>Free Spins Terms</h4>
-        <p>Free spins are credited monthly on the 1st. Spin value and count depend on VIP level. Winnings from free spins are credited as withdrawable cash with no wagering requirement. Unused spins expire at month end.</p>
-
-        <h4>Level Progression</h4>
-        <p>VIP levels are permanent — you never lose progress. XP requirements increase per level. Rewards are claimed manually. All bonuses are subject to platform Terms of Service.</p>
+        <h4>Rakeback</h4>
+        <p>Calculated on theoretical house edge per wager, not outcome. Credited instantly. Rate increases with level.</p>
+        <h4>Cashback</h4>
+        <p>Weekly on net losses (Mon–Sun UTC). Credited following Monday. No wagering.</p>
+        <h4>Free Spins</h4>
+        <p>Credited monthly. Value and count scale with level. Winnings are cash. Unused spins expire at month end.</p>
+        <h4>Progression</h4>
+        <p>Levels are permanent. XP requirements increase per level. Rewards claimed manually.</p>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Rakeback Popup -->
+<div class="info-popup-overlay" id="rakeback-popup">
+  <div class="info-popup">
+    <button class="info-popup-close" data-close="rakeback-popup">&times;</button>
+    <h3>Rakeback — 12.5%</h3>
+    <p class="info-popup-highlight">You earn back <strong>12.5%</strong> of the house edge on every wager.</p>
+    <div class="info-popup-details">
+      <h4>How it works</h4>
+      <p>Rakeback is calculated on the theoretical house edge of each bet, not the outcome. It is credited instantly to your wallet after each settled bet.</p>
+      <h4>Terms</h4>
+      <ul>
+        <li>Rate increases with VIP level</li>
+        <li>Applied to all game categories</li>
+        <li>No wagering requirement on rakeback earnings</li>
+        <li>Credited in real-time to your available balance</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Cashback Popup -->
+<div class="info-popup-overlay" id="cashback-popup">
+  <div class="info-popup">
+    <button class="info-popup-close" data-close="cashback-popup">&times;</button>
+    <h3>Cashback — 7.0%</h3>
+    <p class="info-popup-highlight">You receive <strong>7.0%</strong> cashback on weekly net losses.</p>
+    <div class="info-popup-details">
+      <h4>How it works</h4>
+      <p>Cashback is calculated on net losses from Monday 00:00 UTC to Sunday 23:59 UTC. Credited the following Monday.</p>
+      <h4>Terms</h4>
+      <ul>
+        <li>No wagering requirement</li>
+        <li>Net loss = deposits - withdrawals - remaining balance</li>
+        <li>Rate increases with VIP level</li>
+        <li>Minimum net loss of $10 to qualify</li>
+      </ul>
     </div>
   </div>
 </div>

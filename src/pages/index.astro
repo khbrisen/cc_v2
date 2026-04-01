@@ -8,52 +8,56 @@ import GamesCarousel from '../components/GamesCarousel.astro';
 import GameGrid from '../components/GameGrid.astro';
 ---
 <BaseLayout
-  title="PixelCasino — Crypto Casino"
-  description="Crypto casino with VIP rewards, provably fair games, and retro vibes."
+  title="GAS.CC — Crypto Casino"
+  description="Crypto casino with VIP rewards, provably fair games."
 >
-  <div class="app-layout">
-    <Sidebar />
-
-    <div class="mobile-header">
-      <span class="logo-text">PixelCasino</span>
-      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle sidebar">&#9776;</button>
+  <!-- Top Header Navbar -->
+  <header class="top-header">
+    <div class="header-left">
+      <button class="mobile-menu-btn" id="mobile-menu-btn">&#9776;</button>
+      <a href="#" class="header-logo">GAS.CC</a>
+      <nav class="header-nav">
+        <a href="#" class="active">Casino</a>
+        <a href="#">Sports</a>
+        <a href="#">Live</a>
+        <a href="#">Promotions</a>
+      </nav>
     </div>
+    <div class="header-right">
+      <button class="btn-outline">Log In</button>
+      <button class="btn-primary">Register</button>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <Sidebar />
 
     <div class="main-content">
       <VipBar />
 
       <div class="ticker-bar">
         <div class="ticker-content">
-          <span class="ticker-item">&#127881; <span class="win-amount">0.482 BTC</span> won on <span class="win-game">Crypto Crash</span></span>
-          <span class="ticker-item">&#127942; <span class="win-amount">$12,400</span> jackpot on <span class="win-game">Mega Moolah</span></span>
-          <span class="ticker-item">&#127920; <span class="win-amount">1.2 ETH</span> won on <span class="win-game">Pixel Mines</span></span>
-          <span class="ticker-item">&#128142; <span class="win-amount">0.15 BTC</span> won on <span class="win-game">Dragon Tower</span></span>
+          <span class="ticker-item">&#127881; <span class="win-amount">0.482 BTC</span> on <span class="win-game">Crypto Crash</span></span>
+          <span class="ticker-item">&#127942; <span class="win-amount">$12,400</span> on <span class="win-game">Mega Moolah</span></span>
+          <span class="ticker-item">&#127920; <span class="win-amount">1.2 ETH</span> on <span class="win-game">Pixel Mines</span></span>
+          <span class="ticker-item">&#128142; <span class="win-amount">0.15 BTC</span> on <span class="win-game">Dragon Tower</span></span>
           <span class="ticker-item">&#128293; <span class="win-amount">$8,300</span> on <span class="win-game">Plinko</span></span>
-          <span class="ticker-item">&#9889; <span class="win-amount">3.5 SOL</span> won on <span class="win-game">Dice Duel</span></span>
-          <span class="ticker-item">&#127881; <span class="win-amount">0.482 BTC</span> won on <span class="win-game">Crypto Crash</span></span>
-          <span class="ticker-item">&#127942; <span class="win-amount">$12,400</span> jackpot on <span class="win-game">Mega Moolah</span></span>
-          <span class="ticker-item">&#127920; <span class="win-amount">1.2 ETH</span> won on <span class="win-game">Pixel Mines</span></span>
-          <span class="ticker-item">&#128142; <span class="win-amount">0.15 BTC</span> won on <span class="win-game">Dragon Tower</span></span>
+          <span class="ticker-item">&#9889; <span class="win-amount">3.5 SOL</span> on <span class="win-game">Dice Duel</span></span>
+          <span class="ticker-item">&#127881; <span class="win-amount">0.482 BTC</span> on <span class="win-game">Crypto Crash</span></span>
+          <span class="ticker-item">&#127942; <span class="win-amount">$12,400</span> on <span class="win-game">Mega Moolah</span></span>
+          <span class="ticker-item">&#127920; <span class="win-amount">1.2 ETH</span> on <span class="win-game">Pixel Mines</span></span>
+          <span class="ticker-item">&#128142; <span class="win-amount">0.15 BTC</span> on <span class="win-game">Dragon Tower</span></span>
           <span class="ticker-item">&#128293; <span class="win-amount">$8,300</span> on <span class="win-game">Plinko</span></span>
-          <span class="ticker-item">&#9889; <span class="win-amount">3.5 SOL</span> won on <span class="win-game">Dice Duel</span></span>
+          <span class="ticker-item">&#9889; <span class="win-amount">3.5 SOL</span> on <span class="win-game">Dice Duel</span></span>
         </div>
       </div>
 
       <GamesCarousel />
-
-      <div class="promo-banner">
-        <div class="promo-text">
-          <h3>200% Deposit Match</h3>
-          <p>Deposit with BTC, ETH, or SOL. Up to $5,000 bonus. Code: PIXEL200</p>
-        </div>
-        <button class="promo-btn">Claim Bonus</button>
-      </div>
-
       <GameGrid />
 
       <footer class="site-footer">
         <p>18+ | Gamble Responsibly | Provably Fair | Crypto Only</p>
-        <p>PixelCasino is a design concept. No real gambling functionality.</p>
+        <p>GAS.CC is a design concept. No real gambling functionality.</p>
         <div class="footer-links">
           <a href="#">Terms</a>
           <a href="#">Privacy</a>
@@ -72,35 +76,40 @@ import GameGrid from '../components/GameGrid.astro';
     const expandBtn = document.getElementById('vip-expand-btn');
     const vipOverlay = document.getElementById('vip-overlay');
     const vipClose = document.getElementById('vip-panel-close');
-    const pathScroll = document.getElementById('vip-path-scroll');
+    const levelsScroll = document.getElementById('vip-levels-scroll');
 
     function openVip() {
       vipOverlay.classList.add('open');
       document.body.style.overflow = 'hidden';
       setTimeout(() => {
-        const current = pathScroll.querySelector('.vip-node.current');
-        if (current) current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const cur = levelsScroll.querySelector('.lvl-row.current');
+        if (cur) cur.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 150);
     }
-
-    function closeVip() {
-      vipOverlay.classList.remove('open');
-      document.body.style.overflow = '';
-    }
+    function closeVip() { vipOverlay.classList.remove('open'); document.body.style.overflow = ''; }
 
     expandBtn.addEventListener('click', openVip);
     vipClose.addEventListener('click', closeVip);
-    vipOverlay.addEventListener('click', (e) => {
-      if (e.target === vipOverlay) closeVip();
-    });
+    vipOverlay.addEventListener('click', (e) => { if (e.target === vipOverlay) closeVip(); });
 
     // ── T&C Toggle ────────────────────────────────────────────
-    const tcBtn = document.getElementById('tc-toggle-btn');
-    const tcPanel = document.getElementById('tc-panel');
-
-    tcBtn.addEventListener('click', (e) => {
+    document.getElementById('tc-toggle-btn').addEventListener('click', (e) => {
       e.stopPropagation();
-      tcPanel.classList.toggle('open');
+      document.getElementById('tc-panel').classList.toggle('open');
+    });
+
+    // ── Rakeback / Cashback Popups ────────────────────────────
+    function openPopup(id) { document.getElementById(id).classList.add('open'); }
+    function closePopup(id) { document.getElementById(id).classList.remove('open'); }
+
+    document.getElementById('rakeback-trigger').addEventListener('click', () => openPopup('rakeback-popup'));
+    document.getElementById('cashback-trigger').addEventListener('click', () => openPopup('cashback-popup'));
+
+    document.querySelectorAll('.info-popup-close').forEach(btn => {
+      btn.addEventListener('click', () => closePopup(btn.dataset.close));
+    });
+    document.querySelectorAll('.info-popup-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
     });
 
     // ── Spin Wheel ────────────────────────────────────────────
@@ -114,120 +123,134 @@ import GameGrid from '../components/GameGrid.astro';
 
     const prizes = [
       { label: '$5', color: '#6c5ce7' },
-      { label: '$10', color: '#f5f5f7' },
+      { label: '$10', color: '#f0f0f2' },
       { label: '$25', color: '#a29bfe' },
-      { label: '$50', color: '#f5f5f7' },
+      { label: '$50', color: '#f0f0f2' },
       { label: '10 FS', color: '#0984e3' },
-      { label: '$100', color: '#f5f5f7' },
+      { label: '$100', color: '#f0f0f2' },
       { label: '25 FS', color: '#00b894' },
-      { label: '$250', color: '#f5f5f7' },
+      { label: '$250', color: '#f0f0f2' },
     ];
 
-    let currentAngle = 0;
-    let spinning = false;
+    let currentAngle = 0, spinning = false;
 
     function drawWheel() {
       const ctx = canvas.getContext('2d');
-      const cx = 130, cy = 130, r = 126;
-      const sliceAngle = (2 * Math.PI) / prizes.length;
-
+      const cx = 130, cy = 130, r = 126, sliceAngle = (2 * Math.PI) / prizes.length;
       ctx.clearRect(0, 0, 260, 260);
-
-      prizes.forEach((prize, i) => {
-        const start = i * sliceAngle;
-        const end = start + sliceAngle;
-
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.arc(cx, cy, r, start, end);
-        ctx.closePath();
-        ctx.fillStyle = prize.color;
-        ctx.fill();
-        ctx.strokeStyle = '#e8e8ea';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        ctx.save();
-        ctx.translate(cx, cy);
-        ctx.rotate(start + sliceAngle / 2);
+      prizes.forEach((p, i) => {
+        const s = i * sliceAngle, e = s + sliceAngle;
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, s, e); ctx.closePath();
+        ctx.fillStyle = p.color; ctx.fill();
+        ctx.strokeStyle = '#e8e8ea'; ctx.lineWidth = 1; ctx.stroke();
+        ctx.save(); ctx.translate(cx, cy); ctx.rotate(s + sliceAngle / 2);
         ctx.textAlign = 'right';
-        ctx.fillStyle = prize.color === '#f5f5f7' ? '#1a1a1a' : '#fff';
-        ctx.font = '700 12px Inter, sans-serif';
-        ctx.fillText(prize.label, r - 14, 4);
-        ctx.restore();
+        ctx.fillStyle = p.color === '#f0f0f2' ? '#1a1a1a' : '#fff';
+        ctx.font = '700 11px Inter, sans-serif';
+        ctx.fillText(p.label, r - 12, 4); ctx.restore();
       });
-
-      ctx.beginPath();
-      ctx.arc(cx, cy, 18, 0, 2 * Math.PI);
-      ctx.fillStyle = '#6c5ce7';
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, 16, 0, 2 * Math.PI);
+      ctx.fillStyle = '#6c5ce7'; ctx.fill();
     }
-
     drawWheel();
 
-    spinTrigger.addEventListener('click', () => {
-      spinOverlay.classList.add('open');
-      spinResult.textContent = '';
-    });
-
-    function closeSpin() {
-      if (!spinning) spinOverlay.classList.remove('open');
-    }
-
+    spinTrigger.addEventListener('click', () => { spinOverlay.classList.add('open'); spinResult.textContent = ''; });
+    function closeSpin() { if (!spinning) spinOverlay.classList.remove('open'); }
     spinClose.addEventListener('click', closeSpin);
-    spinOverlay.addEventListener('click', (e) => {
-      if (e.target === spinOverlay) closeSpin();
-    });
+    spinOverlay.addEventListener('click', (e) => { if (e.target === spinOverlay) closeSpin(); });
 
     spinBtn.addEventListener('click', () => {
       if (spinning) return;
-      spinning = true;
-      spinBtn.disabled = true;
-      spinResult.textContent = '';
-
-      const winIndex = Math.floor(Math.random() * prizes.length);
-      const sliceAngle = 360 / prizes.length;
-      const targetAngle = 360 * 5 + (360 - (winIndex * sliceAngle + sliceAngle / 2));
-
-      currentAngle += targetAngle;
+      spinning = true; spinBtn.disabled = true; spinResult.textContent = '';
+      const wi = Math.floor(Math.random() * prizes.length);
+      const sa = 360 / prizes.length;
+      currentAngle += 360 * 5 + (360 - (wi * sa + sa / 2));
       spinWheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
       spinWheel.style.transform = `rotate(${currentAngle}deg)`;
-
-      setTimeout(() => {
-        spinning = false;
-        spinBtn.disabled = false;
-        spinResult.textContent = `You won: ${prizes[winIndex].label}!`;
-      }, 4200);
+      setTimeout(() => { spinning = false; spinBtn.disabled = false; spinResult.textContent = `You won: ${prizes[wi].label}!`; }, 4200);
     });
 
-    // ── Claim Button ──────────────────────────────────────────
+    // ── Claim → Animate funds to wallet ───────────────────────
     const claimTrigger = document.getElementById('claim-trigger');
+    const claimValue = document.getElementById('claim-value');
+    const claimCta = document.getElementById('claim-cta');
+    const balanceEl = document.getElementById('balance-amount');
+    let currentBalance = 4207.83;
+    const claimAmount = 182.40;
+
     claimTrigger.addEventListener('click', () => {
-      const cta = claimTrigger.querySelector('.claim-cta');
-      const val = claimTrigger.querySelector('.pill-value');
-      cta.textContent = 'Claimed!';
-      cta.style.background = '#00b894';
-      val.textContent = '$0.00';
+      if (claimCta.textContent === 'Claimed!') return;
+
+      // Get positions for animation
+      const claimRect = claimTrigger.getBoundingClientRect();
+      const balanceRect = balanceEl.getBoundingClientRect();
+
+      // Create flying element
+      const fly = document.createElement('div');
+      fly.className = 'balance-fly';
+      fly.textContent = '+$182.40';
+      fly.style.left = claimRect.left + claimRect.width / 2 - 30 + 'px';
+      fly.style.top = claimRect.top + 'px';
+      document.body.appendChild(fly);
+
+      // Animate to wallet position
+      const dx = balanceRect.left - claimRect.left;
+      const dy = balanceRect.top - claimRect.top;
+      fly.animate([
+        { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+        { transform: `translate(${dx}px, ${dy}px) scale(0.6)`, opacity: 0.3 }
+      ], { duration: 700, easing: 'ease-in', fill: 'forwards' });
+
+      // Update claim pill
+      claimCta.textContent = 'Claimed!';
+      claimCta.style.background = '#00b894';
+      claimValue.textContent = '$0.00';
+
+      // Animate balance counting up
       setTimeout(() => {
-        cta.textContent = 'Claim';
-        cta.style.background = '';
-        val.textContent = '$182.40';
-      }, 2000);
+        fly.remove();
+        balanceEl.classList.add('adding');
+        const target = currentBalance + claimAmount;
+        const start = currentBalance;
+        const duration = 600;
+        const startTime = performance.now();
+
+        function tick(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const val = start + (target - start) * eased;
+          balanceEl.textContent = '$' + val.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+          if (progress < 1) requestAnimationFrame(tick);
+          else {
+            currentBalance = target;
+            setTimeout(() => balanceEl.classList.remove('adding'), 400);
+          }
+        }
+        requestAnimationFrame(tick);
+      }, 650);
+
+      // Reset after 3s
+      setTimeout(() => {
+        claimCta.textContent = 'Claim';
+        claimCta.style.background = '';
+        claimValue.textContent = '$182.40';
+        // Reset balance back for demo
+        currentBalance = 4207.83;
+        balanceEl.textContent = '$4,207.83';
+      }, 3500);
     });
 
     // ── Mobile Sidebar ────────────────────────────────────────
-    const mobileToggle = document.getElementById('mobile-toggle');
-    if (mobileToggle) {
-      mobileToggle.addEventListener('click', () => {
-        document.getElementById('sidebar').classList.toggle('open');
-      });
-    }
+    document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
 
-    // ── ESC to close ──────────────────────────────────────────
+    // ── ESC ───────────────────────────────────────────────────
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        closeVip();
-        closeSpin();
+        closeVip(); closeSpin();
+        document.querySelectorAll('.info-popup-overlay.open').forEach(o => o.classList.remove('open'));
       }
     });
   </script>
