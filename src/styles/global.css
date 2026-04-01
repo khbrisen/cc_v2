@@ -165,38 +165,38 @@ a:hover { color: var(--text); }
   border: 2px solid var(--accent-light);
   border-radius: var(--r);
   margin: 16px 20px 0;
-  padding: 18px 20px;
+  padding: 22px 24px;
   box-shadow: 0 0 0 4px var(--accent-bg), var(--shadow-sm);
 }
 
 .vip-bar-main {
-  display: flex; align-items: center; gap: 14px; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
 }
 
 .vip-badge {
-  width: 42px; height: 42px;
+  width: 52px; height: 52px;
   background: linear-gradient(135deg, var(--accent), #4834d4);
-  border: 2px solid var(--gold); border-radius: 4px;
+  border: 2px solid var(--gold); border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-pixel); font-size: 0.5rem; color: #fff;
+  font-family: var(--font-pixel); font-size: 0.6rem; color: #fff;
   image-rendering: pixelated; flex-shrink: 0;
 }
 
 .vip-info { flex: 1; min-width: 0; }
 
 .vip-info-top {
-  display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px;
+  display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px;
 }
 
 .vip-level-name {
-  font-family: var(--font-pixel); font-size: 0.48rem; color: var(--accent); image-rendering: pixelated;
+  font-family: var(--font-pixel); font-size: 0.58rem; color: var(--accent); image-rendering: pixelated;
 }
 
-.vip-xp { font-size: 0.72rem; color: var(--text-muted); }
+.vip-xp { font-size: 0.82rem; color: var(--text-muted); }
 .vip-xp strong { color: var(--text-secondary); }
 
 .vip-progress {
-  width: 100%; height: 16px;
+  width: 100%; height: 20px;
   background: var(--surface-alt); border: 2px solid var(--border);
   border-radius: 2px; overflow: hidden;
   image-rendering: pixelated; position: relative;
@@ -222,7 +222,7 @@ a:hover { color: var(--text); }
 .vip-progress-label {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-pixel); font-size: 0.32rem; color: #fff;
+  font-family: var(--font-pixel); font-size: 0.38rem; color: #fff;
   text-shadow: 0 1px 2px rgba(0,0,0,0.4);
   image-rendering: pixelated; letter-spacing: 0.5px;
   mix-blend-mode: normal; z-index: 1;
@@ -232,34 +232,34 @@ a:hover { color: var(--text); }
 
 /* ── VIP Effects Strip ────────────────────────────────────── */
 .vip-effects-strip {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
 }
 
 .vip-effect-pill {
   background: var(--bg); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 10px 12px;
+  border-radius: var(--r-sm); padding: 14px 16px;
   transition: all 0.12s; cursor: pointer;
 }
 .vip-effect-pill:hover { background: var(--surface-hover); }
 
-.pill-label-row { display: flex; align-items: center; gap: 4px; margin-bottom: 3px; }
+.pill-label-row { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
 
 .pill-label {
-  font-size: 0.58rem; font-weight: 700; color: var(--text-muted);
+  font-size: 0.68rem; font-weight: 700; color: var(--text-muted);
   text-transform: uppercase; letter-spacing: 0.04em;
 }
 
 .pill-active-tag {
-  font-size: 0.48rem; font-weight: 700; padding: 1px 5px;
+  font-size: 0.55rem; font-weight: 700; padding: 2px 6px;
   border-radius: 3px; text-transform: uppercase;
 }
 
 .pill-value {
-  font-family: var(--font-pixel); font-size: 0.55rem;
+  font-family: var(--font-pixel); font-size: 0.72rem;
   image-rendering: pixelated; line-height: 1;
 }
 
-.pill-sub { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
+.pill-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 3px; }
 
 .pill-rakeback { border-color: rgba(0,184,148,0.25); }
 .pill-rakeback:hover { border-color: var(--green); background: var(--green-bg); }
@@ -276,7 +276,7 @@ a:hover { color: var(--text); }
 .pill-spins .pill-value { color: var(--accent); }
 .pill-spins .pill-active-tag { background: var(--accent-bg); color: var(--accent); }
 
-.spin-cta { font-size: 0.62rem; font-weight: 600; color: var(--accent); margin-top: 3px; display: inline-block; }
+.spin-cta { font-size: 0.72rem; font-weight: 600; color: var(--accent); margin-top: 4px; display: inline-block; }
 
 .pill-claim { border-color: rgba(225,112,85,0.25); }
 .pill-claim:hover { border-color: var(--orange); background: var(--orange-bg); }
@@ -284,18 +284,18 @@ a:hover { color: var(--text); }
 .pill-claim .pill-active-tag { background: var(--orange-bg); color: var(--orange); }
 
 .claim-cta {
-  display: inline-block; font-size: 0.58rem; font-weight: 700;
-  color: #fff; background: var(--orange); padding: 3px 10px;
-  border-radius: 4px; margin-top: 4px; transition: background 0.12s;
+  display: inline-block; font-size: 0.68rem; font-weight: 700;
+  color: #fff; background: var(--orange); padding: 5px 14px;
+  border-radius: 4px; margin-top: 5px; transition: background 0.12s;
 }
 .pill-claim:hover .claim-cta { background: #d35400; }
 
 /* ── VIP Expand Button ────────────────────────────────────── */
 .vip-expand-btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: 100%; margin-top: 12px; padding: 10px;
+  width: 100%; margin-top: 14px; padding: 12px;
   background: var(--accent); border: none; border-radius: var(--r-sm);
-  color: #fff; font-family: var(--font); font-size: 0.78rem; font-weight: 700;
+  color: #fff; font-family: var(--font); font-size: 0.85rem; font-weight: 700;
   cursor: pointer; transition: all 0.15s;
 }
 .vip-expand-btn:hover { background: #5b4cdb; box-shadow: var(--shadow-md); }
@@ -343,7 +343,7 @@ a:hover { color: var(--text); }
 .vip-panel-close:hover { background: var(--surface-alt); }
 
 .vip-panel-body {
-  flex: 1; display: grid; grid-template-columns: 1fr 230px;
+  flex: 1; display: grid; grid-template-columns: 1fr 280px;
   overflow: hidden;
 }
 
@@ -417,9 +417,9 @@ a:hover { color: var(--text); }
 .vp-node.milestone:nth-child(odd) .vp-card { left: calc(50% + 28px); }
 .vp-node.milestone:nth-child(even) .vp-card { right: calc(50% + 28px); }
 
-.vp-card-name { font-size: 0.72rem; font-weight: 700; color: var(--text); }
-.vp-card-xp { font-size: 0.58rem; color: var(--text-muted); }
-.vp-card-reward { font-size: 0.6rem; font-weight: 700; color: var(--accent); margin-top: 1px; }
+.vp-card-name { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+.vp-card-xp { font-size: 0.68rem; color: var(--text-muted); }
+.vp-card-reward { font-size: 0.7rem; font-weight: 700; color: var(--accent); margin-top: 2px; }
 
 .vp-node.done .vp-card { border-color: rgba(0,184,148,0.2); }
 .vp-node.done .vp-card-name { color: var(--green); }
@@ -433,23 +433,23 @@ a:hover { color: var(--text); }
 /* Right perks panel */
 .vip-perks-panel {
   border-left: 1px solid var(--border); background: var(--bg);
-  padding: 16px 14px; overflow-y: auto;
-  display: flex; flex-direction: column; gap: 6px;
+  padding: 18px 16px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 8px;
 }
 
 .vip-perks-title {
-  font-size: 0.6rem; font-weight: 700; color: var(--text-muted);
-  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px;
+  font-size: 0.7rem; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;
 }
 
 .perk-card {
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r-sm); padding: 10px 12px;
+  border-radius: var(--r-sm); padding: 14px 16px;
 }
-.perk-card .perk-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
-.perk-card .perk-label { font-size: 0.6rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
-.perk-card .perk-value { font-family: var(--font-pixel); font-size: 0.5rem; image-rendering: pixelated; }
-.perk-card .perk-desc { font-size: 0.7rem; color: var(--text-muted); line-height: 1.4; }
+.perk-card .perk-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.perk-card .perk-label { font-size: 0.68rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+.perk-card .perk-value { font-family: var(--font-pixel); font-size: 0.6rem; image-rendering: pixelated; }
+.perk-card .perk-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
 .perk-rakeback .perk-value { color: var(--green); }
 .perk-cashback .perk-value { color: var(--blue); }
 .perk-spins .perk-value { color: var(--accent); }
@@ -572,28 +572,28 @@ a:hover { color: var(--text); }
 
 /* ── Games ────────────────────────────────────────────────── */
 .games-carousel-wrapper { padding: 0 20px 20px; }
-.games-carousel { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+.games-carousel { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 6px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
 
 .game-card {
-  flex: 0 0 140px; scroll-snap-align: start;
+  flex: 0 0 190px; scroll-snap-align: start;
   background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--r-sm); overflow: hidden; cursor: pointer; transition: all 0.15s; position: relative;
+  border-radius: var(--r); overflow: hidden; cursor: pointer; transition: all 0.15s; position: relative;
 }
-.game-card:hover { border-color: var(--accent-light); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-.game-card-img { width: 100%; height: 140px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; }
-.game-card-body { padding: 7px 9px; }
-.game-card-body h4 { font-size: 0.75rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 1px; }
-.game-card-body .game-provider { font-size: 0.65rem; color: var(--text-muted); }
+.game-card:hover { border-color: var(--accent-light); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.game-card-img { width: 100%; height: 180px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+.game-card-body { padding: 10px 12px; }
+.game-card-body h4 { font-size: 0.88rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+.game-card-body .game-provider { font-size: 0.75rem; color: var(--text-muted); }
 
-.game-tag { position: absolute; top: 6px; right: 6px; font-size: 0.52rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+.game-tag { position: absolute; top: 8px; right: 8px; font-size: 0.6rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
 .game-tag.hot { background: var(--orange); color: #fff; }
 .game-tag.new { background: var(--green); color: #fff; }
 .game-tag.popular { background: var(--accent); color: #fff; }
 
-.category-tabs { display: flex; gap: 5px; padding: 0 20px 8px; overflow-x: auto; scrollbar-width: none; }
+.category-tabs { display: flex; gap: 6px; padding: 0 20px 10px; overflow-x: auto; scrollbar-width: none; }
 .category-tabs::-webkit-scrollbar { display: none; }
 .cat-tab {
-  font-size: 0.7rem; font-weight: 600; padding: 5px 13px;
+  font-size: 0.78rem; font-weight: 600; padding: 7px 16px;
   background: var(--surface); color: var(--text-muted);
   border: 1px solid var(--border); border-radius: 20px;
   cursor: pointer; white-space: nowrap; transition: all 0.12s;
@@ -601,7 +601,7 @@ a:hover { color: var(--text); }
 .cat-tab:hover { color: var(--text); background: var(--surface-alt); }
 .cat-tab.active { color: #fff; background: var(--accent); border-color: var(--accent); }
 
-.games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 10px; padding: 0 20px 24px; }
+.games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px, 1fr)); gap: 14px; padding: 0 20px 28px; }
 
 /* ── Footer ───────────────────────────────────────────────── */
 .site-footer { margin-top: auto; border-top: 1px solid var(--border); padding: 16px 20px; text-align: center; }
@@ -610,51 +610,82 @@ a:hover { color: var(--text); }
 .footer-links a { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
 .footer-links a:hover { color: var(--text); }
 
+/* ── Mobile Bottom Nav ─────────────────────────────────────── */
+.mobile-bottom-nav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 250;
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+}
+
+.mobile-bottom-nav-inner {
+  display: flex; justify-content: space-around; align-items: center;
+}
+
+.mob-nav-item {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; font-size: 0.6rem; font-weight: 600; color: var(--text-muted);
+  text-decoration: none; padding: 4px 8px; border-radius: var(--r-xs);
+  transition: color 0.12s; background: none; border: none; cursor: pointer;
+}
+.mob-nav-item .mob-icon { font-size: 1.15rem; }
+.mob-nav-item.active { color: var(--accent); }
+.mob-nav-item:hover { color: var(--accent); }
+
 /* ── Mobile ───────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .header-nav { display: none; }
   .mobile-menu-btn { display: block; }
-  .sidebar { transform: translateX(-100%); transition: transform 0.2s; top: var(--header-h); }
-  .sidebar.open { transform: translateX(0); }
-  .main-content { margin-left: 0; }
+  .sidebar { display: none; }
+  .main-content { margin-left: 0; padding-bottom: 64px; }
+  .mobile-bottom-nav { display: block; }
 
-  .vip-section { margin: 10px 12px 0; padding: 14px; }
-  .vip-effects-strip { grid-template-columns: repeat(2, 1fr); gap: 6px; }
-  .vip-badge { width: 36px; height: 36px; font-size: 0.42rem; }
-  .vip-level-name { font-size: 0.42rem; }
-  .vip-xp { font-size: 0.65rem; }
-  .vip-progress { height: 14px; }
-  .vip-progress-label { font-size: 0.28rem; }
-  .pill-label { font-size: 0.52rem; }
-  .pill-value { font-size: 0.5rem; }
-  .pill-active-tag { font-size: 0.42rem; }
+  .vip-section { margin: 10px 10px 0; padding: 16px; }
+  .vip-effects-strip { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .vip-badge { width: 42px; height: 42px; font-size: 0.48rem; }
+  .vip-level-name { font-size: 0.48rem; }
+  .vip-xp { font-size: 0.72rem; }
+  .vip-progress { height: 18px; }
+  .vip-progress-label { font-size: 0.32rem; }
+  .pill-label { font-size: 0.6rem; }
+  .pill-value { font-size: 0.62rem; }
+  .pill-active-tag { font-size: 0.5rem; }
+  .pill-sub { font-size: 0.72rem; }
+  .vip-effect-pill { padding: 12px 14px; }
+  .claim-cta { font-size: 0.62rem; padding: 4px 12px; }
+  .vip-expand-btn { font-size: 0.8rem; padding: 11px; }
 
   .vip-panel { width: 100%; }
   .vip-panel-body { grid-template-columns: 1fr; }
   .vip-perks-panel { display: none; }
-  .vip-path { padding-left: 60px; padding-right: 60px; }
-  .vp-card-name { font-size: 0.65rem; }
-  .vp-card-xp { font-size: 0.52rem; }
+  .vip-path { padding-left: 70px; padding-right: 70px; }
+  .vp-card-name { font-size: 0.72rem; }
+  .vp-card-xp { font-size: 0.58rem; }
 
   .info-popup { padding: 20px; }
 
-  .games-carousel-wrapper, .section-header, .category-tabs { padding-left: 12px; padding-right: 12px; }
-  .games-grid { padding: 0 12px 18px; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
-  .game-card { flex: 0 0 120px; }
-  .game-card-img { height: 120px; font-size: 1.8rem; }
-  .game-card-body { padding: 6px 8px; }
-  .game-card-body h4 { font-size: 0.68rem; }
+  .games-carousel-wrapper, .section-header, .category-tabs { padding-left: 10px; padding-right: 10px; }
+  .games-grid { padding: 0 10px 20px; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .game-card { flex: 0 0 160px; }
+  .game-card-img { height: 150px; font-size: 2.4rem; }
+  .game-card-body { padding: 8px 10px; }
+  .game-card-body h4 { font-size: 0.8rem; }
+  .game-card-body .game-provider { font-size: 0.68rem; }
 
   .ticker-bar { padding: 5px 0; }
-  .ticker-item { font-size: 0.62rem; }
+  .ticker-item { font-size: 0.65rem; }
+
+  .site-footer { padding-bottom: 70px; }
 }
 
 @media (max-width: 480px) {
   .header-right .btn-outline { display: none; }
   .vip-effects-strip { grid-template-columns: 1fr 1fr; }
   .games-grid { grid-template-columns: repeat(2, 1fr); }
-  .vip-path { padding-left: 40px; padding-right: 40px; }
+  .vip-path { padding-left: 50px; padding-right: 50px; }
   .game-page-iframe { height: 50vh; }
+  .game-card { flex: 0 0 140px; }
+  .game-card-img { height: 130px; }
 }
 
 /* ══════════════════════════════════════════════════════════════

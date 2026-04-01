@@ -12,7 +12,7 @@ const levels = Array.from({ length: 100 }, (_, i) => {
   const num = i + 1;
   const xpReq = num * 1000;
   const reward = rewards[(num - 1) % rewards.length];
-  const isMilestone = num % 5 === 0 || num === 1 || num === currentLevel;
+  const isMilestone = true;
   return {
     num, xpReq, reward, isMilestone,
     completed: num < currentLevel,
