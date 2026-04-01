@@ -307,6 +307,22 @@ a:hover { color: var(--text); }
 }
 .pill-claim:hover .claim-cta { background: #d35400; }
 
+.boost-timer-row {
+  display: flex; align-items: center; gap: 4px;
+  margin-top: 3px;
+}
+.boost-timer-row .boost-timer,
+.boost-timer {
+  font-family: var(--font-pixel); font-size: 0.52rem;
+  color: #e17055; image-rendering: pixelated;
+}
+.header-boost-timer {
+  font-size: 0.65rem; margin-left: 4px; opacity: 0.9;
+}
+.rate-breakdown-timer-row .boost-timer {
+  font-size: 0.75rem;
+}
+
 .pill-boost-tag {
   font-size: 0.52rem; font-weight: 700; padding: 2px 6px;
   border-radius: 3px;

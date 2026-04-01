@@ -24,7 +24,7 @@ import GameGrid from '../components/GameGrid.astro';
       </nav>
     </div>
     <div class="header-right">
-      <button class="btn-rakeback-boost">🔥 Rakeback Boost</button>
+      <button class="btn-rakeback-boost">🔥 Rakeback Boost <span class="boost-timer header-boost-timer"></span></button>
       <button class="btn-outline">Log In</button>
       <button class="btn-primary">Register</button>
     </div>
@@ -119,6 +119,26 @@ import GameGrid from '../components/GameGrid.astro';
   <SpinWheel />
 
   <script is:inline>
+    // ── Boost Countdown Timer ─────────────────────────────────
+    (function() {
+      // Boost expires 2h 47m 33s from page load (demo)
+      let boostEnd = Date.now() + (2 * 3600 + 47 * 60 + 33) * 1000;
+      const timerEls = document.querySelectorAll('.boost-timer');
+
+      function updateBoostTimers() {
+        const remaining = Math.max(0, boostEnd - Date.now());
+        const h = Math.floor(remaining / 3600000);
+        const m = Math.floor((remaining % 3600000) / 60000);
+        const s = Math.floor((remaining % 60000) / 1000);
+        const text = h > 0
+          ? `${h}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`
+          : `${m}m ${String(s).padStart(2,'0')}s`;
+        timerEls.forEach(el => el.textContent = text);
+        if (remaining > 0) requestAnimationFrame(updateBoostTimers);
+      }
+      updateBoostTimers();
+    })();
+
     // ── VIP Levels Overlay ────────────────────────────────────
     const expandBtn = document.getElementById('vip-expand-btn');
     const vipOverlay = document.getElementById('vip-overlay');
