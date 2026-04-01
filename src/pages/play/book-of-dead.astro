@@ -1,0 +1,168 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VipBar from '../../components/VipBar.astro';
+import VipLevels from '../../components/VipLevels.astro';
+import SpinWheel from '../../components/SpinWheel.astro';
+---
+<BaseLayout
+  title="Book of Dead — GAS.CC"
+  description="Play Book of Dead by Play'n GO on GAS.CC"
+>
+  <header class="top-header">
+    <div class="header-left">
+      <a href="/" class="header-logo">GAS.CC</a>
+    </div>
+    <div class="header-right">
+      <button class="btn-outline">Log In</button>
+      <button class="btn-primary">Register</button>
+    </div>
+  </header>
+
+  <div style="padding-top: var(--header-h);">
+    <div class="game-page">
+      <!-- Game toolbar -->
+      <div class="game-page-top">
+        <a href="/" class="game-back">&larr; Back</a>
+        <span class="game-page-title">Book of Dead</span>
+        <span class="game-page-provider">Play'n GO</span>
+      </div>
+
+      <!-- Game iframe area -->
+      <div class="game-page-iframe">
+        <div class="game-placeholder">
+          <div>📖</div>
+          <p>Game loads here (iframe placeholder)</p>
+        </div>
+      </div>
+
+      <!-- VIP section pinned at bottom -->
+      <div class="game-vip-footer">
+        <VipBar />
+      </div>
+    </div>
+  </div>
+
+  <VipLevels />
+  <SpinWheel />
+
+  <script is:inline>
+    // ── VIP Levels Overlay ────────────────────────────────────
+    const expandBtn = document.getElementById('vip-expand-btn');
+    const vipOverlay = document.getElementById('vip-overlay');
+    const vipClose = document.getElementById('vip-panel-close');
+    const levelsScroll = document.getElementById('vip-levels-scroll');
+
+    function openVip() {
+      vipOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        const cur = levelsScroll.querySelector('.vp-node.current');
+        if (cur) cur.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 150);
+    }
+    function closeVip() { vipOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+    expandBtn.addEventListener('click', openVip);
+    vipClose.addEventListener('click', closeVip);
+    vipOverlay.addEventListener('click', (e) => { if (e.target === vipOverlay) closeVip(); });
+
+    // ── T&C Toggle
+    document.getElementById('tc-toggle-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.getElementById('tc-panel').classList.toggle('open');
+    });
+
+    // ── Rakeback / Cashback Popups
+    function openPopup(id) { document.getElementById(id).classList.add('open'); }
+    function closePopup(id) { document.getElementById(id).classList.remove('open'); }
+
+    document.getElementById('rakeback-trigger').addEventListener('click', () => openPopup('rakeback-popup'));
+    document.getElementById('cashback-trigger').addEventListener('click', () => openPopup('cashback-popup'));
+
+    document.querySelectorAll('.info-popup-close').forEach(btn => {
+      btn.addEventListener('click', () => closePopup(btn.dataset.close));
+    });
+    document.querySelectorAll('.info-popup-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
+    });
+
+    // ── Spin Wheel
+    const spinTrigger = document.getElementById('spin-trigger');
+    const spinOverlay = document.getElementById('spin-overlay');
+    const spinClose = document.getElementById('spin-close');
+    const spinBtn = document.getElementById('spin-btn');
+    const spinResult = document.getElementById('spin-result');
+    const spinWheel = document.getElementById('spin-wheel');
+    const canvas = document.getElementById('spin-canvas');
+
+    const prizes = [
+      { label: '$5', color: '#6c5ce7' },
+      { label: '$10', color: '#f0f0f2' },
+      { label: '$25', color: '#a29bfe' },
+      { label: '$50', color: '#f0f0f2' },
+      { label: '10 FS', color: '#0984e3' },
+      { label: '$100', color: '#f0f0f2' },
+      { label: '25 FS', color: '#00b894' },
+      { label: '$250', color: '#f0f0f2' },
+    ];
+
+    let currentAngle = 0, spinning = false;
+
+    function drawWheel() {
+      const ctx = canvas.getContext('2d');
+      const cx = 130, cy = 130, r = 126, sa = (2 * Math.PI) / prizes.length;
+      ctx.clearRect(0, 0, 260, 260);
+      prizes.forEach((p, i) => {
+        const s = i * sa, e = s + sa;
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, s, e); ctx.closePath();
+        ctx.fillStyle = p.color; ctx.fill();
+        ctx.strokeStyle = '#e8e8ea'; ctx.lineWidth = 1; ctx.stroke();
+        ctx.save(); ctx.translate(cx, cy); ctx.rotate(s + sa / 2);
+        ctx.textAlign = 'right';
+        ctx.fillStyle = p.color === '#f0f0f2' ? '#1a1a1a' : '#fff';
+        ctx.font = '700 11px Inter, sans-serif';
+        ctx.fillText(p.label, r - 12, 4); ctx.restore();
+      });
+      ctx.beginPath(); ctx.arc(cx, cy, 16, 0, 2 * Math.PI);
+      ctx.fillStyle = '#6c5ce7'; ctx.fill();
+    }
+    drawWheel();
+
+    spinTrigger.addEventListener('click', () => { spinOverlay.classList.add('open'); spinResult.textContent = ''; });
+    function closeSpin() { if (!spinning) spinOverlay.classList.remove('open'); }
+    spinClose.addEventListener('click', closeSpin);
+    spinOverlay.addEventListener('click', (e) => { if (e.target === spinOverlay) closeSpin(); });
+
+    spinBtn.addEventListener('click', () => {
+      if (spinning) return;
+      spinning = true; spinBtn.disabled = true; spinResult.textContent = '';
+      const wi = Math.floor(Math.random() * prizes.length);
+      const sa = 360 / prizes.length;
+      currentAngle += 360 * 5 + (360 - (wi * sa + sa / 2));
+      spinWheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
+      spinWheel.style.transform = `rotate(${currentAngle}deg)`;
+      setTimeout(() => { spinning = false; spinBtn.disabled = false; spinResult.textContent = `You won: ${prizes[wi].label}!`; }, 4200);
+    });
+
+    // ── Claim
+    const claimTrigger = document.getElementById('claim-trigger');
+    const claimValue = document.getElementById('claim-value');
+    const claimCta = document.getElementById('claim-cta');
+
+    claimTrigger.addEventListener('click', () => {
+      if (claimCta.textContent === 'Claimed!') return;
+      claimCta.textContent = 'Claimed!';
+      claimCta.style.background = '#00b894';
+      claimValue.textContent = '$0.00';
+      setTimeout(() => { claimCta.textContent = 'Claim'; claimCta.style.background = ''; claimValue.textContent = '$182.40'; }, 2500);
+    });
+
+    // ── ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeVip(); closeSpin();
+        document.querySelectorAll('.info-popup-overlay.open').forEach(o => o.classList.remove('open'));
+      }
+    });
+  </script>
+</BaseLayout>

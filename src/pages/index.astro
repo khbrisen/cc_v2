@@ -82,7 +82,7 @@ import GameGrid from '../components/GameGrid.astro';
       vipOverlay.classList.add('open');
       document.body.style.overflow = 'hidden';
       setTimeout(() => {
-        const cur = levelsScroll.querySelector('.lvl-row.current');
+        const cur = levelsScroll.querySelector('.vp-node.current');
         if (cur) cur.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 150);
     }

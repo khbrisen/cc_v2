@@ -29,13 +29,16 @@ const slots = [
 </div>
 
 <div class="games-grid">
-  {slots.map(game => (
-    <div class="game-card">
-      <div class="game-card-img">{game.emoji}</div>
-      <div class="game-card-body">
-        <h4>{game.name}</h4>
-        <span class="game-provider">{game.provider}</span>
-      </div>
-    </div>
-  ))}
+  {slots.map(game => {
+    const href = game.name === 'Book of Dead' ? '/play/book-of-dead/' : '#';
+    return (
+      <a class="game-card" href={href} style="text-decoration:none;color:inherit;">
+        <div class="game-card-img">{game.emoji}</div>
+        <div class="game-card-body">
+          <h4>{game.name}</h4>
+          <span class="game-provider">{game.provider}</span>
+        </div>
+      </a>
+    );
+  })}
 </div>
