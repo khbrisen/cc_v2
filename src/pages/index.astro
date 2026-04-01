@@ -2,86 +2,83 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Sidebar from '../components/Sidebar.astro';
 import VipBar from '../components/VipBar.astro';
-import VipModal from '../components/VipModal.astro';
+import VipLevels from '../components/VipLevels.astro';
+import SpinWheel from '../components/SpinWheel.astro';
 import GamesCarousel from '../components/GamesCarousel.astro';
 import GameGrid from '../components/GameGrid.astro';
 ---
 <BaseLayout
-  title="PixelCasino — Retro Crypto Casino"
-  description="Retro-styled crypto casino with VIP rewards, provably fair games, and 8-bit vibes."
+  title="PixelCasino — Crypto Casino"
+  description="Crypto casino with VIP rewards, provably fair games, and retro vibes."
 >
   <div class="app-layout">
     <Sidebar />
 
-    <!-- Mobile Header -->
     <div class="mobile-header">
-      <span class="logo-text">🎰 PixelCasino</span>
-      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle sidebar">☰</button>
+      <span class="logo-text">PixelCasino</span>
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle sidebar">&#9776;</button>
     </div>
 
     <div class="main-content">
-      <!-- VIP Progression Bar (top of fold / hero) -->
-      <VipBar />
+      <!-- VIP Bar with effects + expandable levels -->
+      <VipBar>
+        <VipLevels />
+      </VipBar>
 
       <!-- Live Wins Ticker -->
       <div class="ticker-bar">
         <div class="ticker-content">
-          <span class="ticker-item">🎉 <span class="win-amount">0.482 BTC</span> won on <span class="win-game">Crypto Crash</span> by Player_x7f</span>
-          <span class="ticker-item">🏆 <span class="win-amount">$12,400</span> jackpot on <span class="win-game">Mega Moolah NES</span></span>
-          <span class="ticker-item">🎰 <span class="win-amount">1.2 ETH</span> won on <span class="win-game">Pixel Mines</span> by CryptoKing99</span>
-          <span class="ticker-item">💎 <span class="win-amount">0.15 BTC</span> won on <span class="win-game">Dragon Tower</span> by anon_4d2</span>
-          <span class="ticker-item">🔥 <span class="win-amount">$8,300</span> on <span class="win-game">Plinko 8-Bit</span> by PixelWhale</span>
-          <span class="ticker-item">⚡ <span class="win-amount">3.5 SOL</span> won on <span class="win-game">Dice Duel</span> by Sol_Maxi</span>
-          <!-- duplicate for seamless loop -->
-          <span class="ticker-item">🎉 <span class="win-amount">0.482 BTC</span> won on <span class="win-game">Crypto Crash</span> by Player_x7f</span>
-          <span class="ticker-item">🏆 <span class="win-amount">$12,400</span> jackpot on <span class="win-game">Mega Moolah NES</span></span>
-          <span class="ticker-item">🎰 <span class="win-amount">1.2 ETH</span> won on <span class="win-game">Pixel Mines</span> by CryptoKing99</span>
-          <span class="ticker-item">💎 <span class="win-amount">0.15 BTC</span> won on <span class="win-game">Dragon Tower</span> by anon_4d2</span>
-          <span class="ticker-item">🔥 <span class="win-amount">$8,300</span> on <span class="win-game">Plinko 8-Bit</span> by PixelWhale</span>
-          <span class="ticker-item">⚡ <span class="win-amount">3.5 SOL</span> won on <span class="win-game">Dice Duel</span> by Sol_Maxi</span>
+          <span class="ticker-item">&#127881; <span class="win-amount">0.482 BTC</span> won on <span class="win-game">Crypto Crash</span> by Player_x7f</span>
+          <span class="ticker-item">&#127942; <span class="win-amount">$12,400</span> jackpot on <span class="win-game">Mega Moolah</span></span>
+          <span class="ticker-item">&#127920; <span class="win-amount">1.2 ETH</span> won on <span class="win-game">Pixel Mines</span> by CryptoKing99</span>
+          <span class="ticker-item">&#128142; <span class="win-amount">0.15 BTC</span> won on <span class="win-game">Dragon Tower</span> by anon_4d2</span>
+          <span class="ticker-item">&#128293; <span class="win-amount">$8,300</span> on <span class="win-game">Plinko</span> by PixelWhale</span>
+          <span class="ticker-item">&#9889; <span class="win-amount">3.5 SOL</span> won on <span class="win-game">Dice Duel</span> by Sol_Maxi</span>
+          <span class="ticker-item">&#127881; <span class="win-amount">0.482 BTC</span> won on <span class="win-game">Crypto Crash</span> by Player_x7f</span>
+          <span class="ticker-item">&#127942; <span class="win-amount">$12,400</span> jackpot on <span class="win-game">Mega Moolah</span></span>
+          <span class="ticker-item">&#127920; <span class="win-amount">1.2 ETH</span> won on <span class="win-game">Pixel Mines</span> by CryptoKing99</span>
+          <span class="ticker-item">&#128142; <span class="win-amount">0.15 BTC</span> won on <span class="win-game">Dragon Tower</span> by anon_4d2</span>
+          <span class="ticker-item">&#128293; <span class="win-amount">$8,300</span> on <span class="win-game">Plinko</span> by PixelWhale</span>
+          <span class="ticker-item">&#9889; <span class="win-amount">3.5 SOL</span> won on <span class="win-game">Dice Duel</span> by Sol_Maxi</span>
         </div>
       </div>
 
       <!-- Quick Stats -->
       <div class="quick-stats">
         <div class="stat-card">
-          <div class="stat-icon">🎮</div>
+          <div class="stat-icon">&#127918;</div>
           <div class="stat-value">2,847</div>
           <div class="stat-label">Games</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">👤</div>
+          <div class="stat-icon">&#128100;</div>
           <div class="stat-value">14.2K</div>
-          <div class="stat-label">Online Now</div>
+          <div class="stat-label">Online</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">💰</div>
+          <div class="stat-icon">&#128176;</div>
           <div class="stat-value">$2.4M</div>
           <div class="stat-label">Won Today</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">🏆</div>
+          <div class="stat-icon">&#127942;</div>
           <div class="stat-value">$847K</div>
           <div class="stat-label">Jackpot</div>
         </div>
       </div>
 
-      <!-- Featured Games Carousel -->
       <GamesCarousel />
 
-      <!-- Promo Banner -->
       <div class="promo-banner">
         <div class="promo-text">
-          <h3>Weekend Bonus: 200% Deposit Match</h3>
-          <p>Deposit with BTC, ETH, or SOL and get 200% bonus up to $5,000. Code: PIXEL200</p>
+          <h3>200% Deposit Match</h3>
+          <p>Deposit with BTC, ETH, or SOL. Up to $5,000 bonus. Code: PIXEL200</p>
         </div>
         <button class="promo-btn">Claim Bonus</button>
       </div>
 
-      <!-- Slots Grid -->
       <GameGrid />
 
-      <!-- Footer -->
       <footer class="site-footer">
         <p>18+ | Gamble Responsibly | Provably Fair | Crypto Only</p>
         <p>PixelCasino is a design concept. No real gambling functionality.</p>
@@ -95,47 +92,160 @@ import GameGrid from '../components/GameGrid.astro';
     </div>
   </div>
 
-  <!-- VIP Modal (hidden until click) -->
-  <VipModal />
+  <!-- Spin Wheel Modal -->
+  <SpinWheel />
 
-  <!-- Interactivity Script -->
   <script is:inline>
-    // VIP Bar → open modal
-    document.getElementById('vip-bar').addEventListener('click', () => {
-      document.getElementById('vip-modal').classList.add('open');
-      // Scroll to current level
-      const currentRow = document.querySelector('.vip-level-row.current');
-      if (currentRow) {
-        setTimeout(() => currentRow.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+    // ── VIP Levels Drawer Toggle ──────────────────────────────
+    const expandBtn = document.getElementById('vip-expand-btn');
+    const drawer = document.getElementById('vip-levels-drawer');
+
+    expandBtn.addEventListener('click', () => {
+      const isOpen = drawer.classList.toggle('open');
+      expandBtn.classList.toggle('expanded', isOpen);
+      expandBtn.querySelector('.arrow').innerHTML = isOpen ? '&#9650;' : '&#9660;';
+
+      if (isOpen) {
+        setTimeout(() => {
+          const currentRow = document.querySelector('.vip-level-row.current');
+          if (currentRow) currentRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 200);
       }
     });
 
-    // Close modal
-    document.getElementById('vip-modal-close').addEventListener('click', (e) => {
-      e.stopPropagation();
-      document.getElementById('vip-modal').classList.remove('open');
+    // ── Spin Wheel ────────────────────────────────────────────
+    const spinTrigger = document.getElementById('spin-trigger');
+    const spinOverlay = document.getElementById('spin-overlay');
+    const spinClose = document.getElementById('spin-close');
+    const spinBtn = document.getElementById('spin-btn');
+    const spinResult = document.getElementById('spin-result');
+    const spinWheel = document.getElementById('spin-wheel');
+    const canvas = document.getElementById('spin-canvas');
+
+    const prizes = [
+      { label: '$5', color: '#c43e2a' },
+      { label: '$10', color: '#1e1e1e' },
+      { label: '$25', color: '#8a2c1e' },
+      { label: '$50', color: '#1e1e1e' },
+      { label: '10 FS', color: '#4a9eb5' },
+      { label: '$100', color: '#1e1e1e' },
+      { label: '25 FS', color: '#8860b4' },
+      { label: '$250', color: '#1e1e1e' },
+    ];
+
+    let currentAngle = 0;
+    let spinning = false;
+
+    function drawWheel() {
+      const ctx = canvas.getContext('2d');
+      const cx = 130, cy = 130, r = 126;
+      const sliceAngle = (2 * Math.PI) / prizes.length;
+
+      ctx.clearRect(0, 0, 260, 260);
+
+      prizes.forEach((prize, i) => {
+        const start = i * sliceAngle;
+        const end = start + sliceAngle;
+
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, r, start, end);
+        ctx.closePath();
+        ctx.fillStyle = prize.color;
+        ctx.fill();
+
+        // Border between slices
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Text
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(start + sliceAngle / 2);
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#f0e6d8';
+        ctx.font = '700 13px Inter, sans-serif';
+        ctx.fillText(prize.label, r - 16, 5);
+        ctx.restore();
+      });
+
+      // Center circle
+      ctx.beginPath();
+      ctx.arc(cx, cy, 20, 0, 2 * Math.PI);
+      ctx.fillStyle = '#d4a54a';
+      ctx.fill();
+      ctx.strokeStyle = '#1e1e1e';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    drawWheel();
+
+    spinTrigger.addEventListener('click', () => {
+      spinOverlay.classList.add('open');
+      spinResult.textContent = '';
     });
 
-    // Click overlay to close
-    document.getElementById('vip-modal').addEventListener('click', (e) => {
-      if (e.target === e.currentTarget) {
-        e.currentTarget.classList.remove('open');
-      }
+    function closeSpin() {
+      if (!spinning) spinOverlay.classList.remove('open');
+    }
+
+    spinClose.addEventListener('click', closeSpin);
+    spinOverlay.addEventListener('click', (e) => {
+      if (e.target === spinOverlay) closeSpin();
     });
 
-    // ESC to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        document.getElementById('vip-modal').classList.remove('open');
-      }
+    spinBtn.addEventListener('click', () => {
+      if (spinning) return;
+      spinning = true;
+      spinBtn.disabled = true;
+      spinResult.textContent = '';
+
+      const winIndex = Math.floor(Math.random() * prizes.length);
+      const sliceAngle = 360 / prizes.length;
+      // Land in the middle of the winning slice, pointer is at top (270deg in wheel coords)
+      const targetAngle = 360 * 5 + (360 - (winIndex * sliceAngle + sliceAngle / 2));
+
+      currentAngle += targetAngle;
+      spinWheel.style.transition = 'transform 4s cubic-bezier(0.2, 0.8, 0.3, 1)';
+      spinWheel.style.transform = `rotate(${currentAngle}deg)`;
+
+      setTimeout(() => {
+        spinning = false;
+        spinBtn.disabled = false;
+        spinResult.textContent = `You won: ${prizes[winIndex].label}!`;
+      }, 4200);
     });
 
-    // Mobile sidebar toggle
+    // ── Claim Button ──────────────────────────────────────────
+    const claimTrigger = document.getElementById('claim-trigger');
+    claimTrigger.addEventListener('click', () => {
+      const cta = claimTrigger.querySelector('.claim-cta');
+      const val = claimTrigger.querySelector('.pill-value');
+      cta.textContent = 'Claimed!';
+      cta.style.background = '#4caf6e';
+      val.textContent = '$0.00';
+      setTimeout(() => {
+        cta.textContent = 'Claim';
+        cta.style.background = '';
+        val.textContent = '$182.40';
+      }, 2000);
+    });
+
+    // ── Mobile Sidebar Toggle ─────────────────────────────────
     const mobileToggle = document.getElementById('mobile-toggle');
     if (mobileToggle) {
       mobileToggle.addEventListener('click', () => {
         document.getElementById('sidebar').classList.toggle('open');
       });
     }
+
+    // ── ESC to close overlays ─────────────────────────────────
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeSpin();
+      }
+    });
   </script>
 </BaseLayout>

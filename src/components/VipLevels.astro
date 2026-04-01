@@ -1,0 +1,93 @@
+---
+const tiers = [
+  { range: [1, 5], prefix: 'Copper', icon: '🟤' },
+  { range: [6, 10], prefix: 'Bronze', icon: '🥉' },
+  { range: [11, 15], prefix: 'Silver', icon: '⚪' },
+  { range: [16, 20], prefix: 'Gold', icon: '🥇' },
+  { range: [21, 25], prefix: 'Platinum', icon: '💎' },
+  { range: [26, 30], prefix: 'Emerald', icon: '💚' },
+  { range: [31, 35], prefix: 'Diamond', icon: '♦️' },
+  { range: [36, 40], prefix: 'Ruby', icon: '🔴' },
+  { range: [41, 45], prefix: 'Sapphire', icon: '🔵' },
+  { range: [46, 50], prefix: 'Obsidian', icon: '⬛' },
+  { range: [51, 55], prefix: 'Onyx', icon: '🖤' },
+  { range: [56, 60], prefix: 'Titanium', icon: '🩶' },
+  { range: [61, 65], prefix: 'Mythic', icon: '🌟' },
+  { range: [66, 70], prefix: 'Ethereal', icon: '🌀' },
+  { range: [71, 75], prefix: 'Celestial', icon: '🌠' },
+  { range: [76, 80], prefix: 'Legendary', icon: '🏅' },
+  { range: [81, 85], prefix: 'Ascendant', icon: '🔥' },
+  { range: [86, 90], prefix: 'Immortal', icon: '👑' },
+  { range: [91, 95], prefix: 'Transcendent', icon: '✨' },
+  { range: [96, 99], prefix: 'Apex', icon: '⚡' },
+  { range: [100, 100], prefix: 'MAXED', icon: '🏆' },
+];
+
+const numerals = ['I', 'II', 'III', 'IV', 'V'];
+const currentLevel = 37;
+
+const levels = Array.from({ length: 100 }, (_, i) => {
+  const num = i + 1;
+  const tier = tiers.find(t => num >= t.range[0] && num <= t.range[1])!;
+  const subIndex = (num - tier.range[0]) % 5;
+  const name = num === 100 ? 'MAXED' : `${tier.prefix} ${numerals[subIndex]}`;
+  return {
+    num,
+    name,
+    icon: tier.icon,
+    current: num === currentLevel,
+    locked: num > currentLevel,
+  };
+});
+---
+<!-- Left: Scrollable Levels -->
+<div class="vip-levels-list">
+  <div class="vip-levels-list-title">All Levels</div>
+  {levels.map(l => (
+    <div class={`vip-level-row ${l.current ? 'current' : ''} ${l.locked ? 'locked' : ''}`}
+         data-level={l.num}>
+      <span class="vip-level-num">{String(l.num).padStart(2, '0')}</span>
+      <span class="vip-level-icon">{l.icon}</span>
+      <span class="vip-level-name-text">{l.name}</span>
+      {l.current && <span class="vip-level-tag tag-you">YOU</span>}
+      {l.locked && <span class="vip-level-tag tag-locked">🔒</span>}
+    </div>
+  ))}
+</div>
+
+<!-- Right: Effect Details for Current Level -->
+<div class="vip-effects-detail">
+  <div class="vip-effects-detail-title">Level 37 Perks</div>
+
+  <div class="effect-detail-card ed-rakeback">
+    <div class="ed-top">
+      <span class="ed-label">Rakeback</span>
+      <span class="ed-value">12.5%</span>
+    </div>
+    <div class="ed-desc">Earn back 12.5% of house edge on every wager. Credited instantly.</div>
+  </div>
+
+  <div class="effect-detail-card ed-cashback">
+    <div class="ed-top">
+      <span class="ed-label">Cashback</span>
+      <span class="ed-value">7.0%</span>
+    </div>
+    <div class="ed-desc">Weekly cashback on net losses. No wagering requirement.</div>
+  </div>
+
+  <div class="effect-detail-card ed-spins">
+    <div class="ed-top">
+      <span class="ed-label">Free Spins</span>
+      <span class="ed-value">45</span>
+    </div>
+    <div class="ed-desc">Monthly spins at $0.20 value each. Winnings paid as cash.</div>
+  </div>
+
+  <div class="effect-detail-card ed-claim">
+    <div class="ed-top">
+      <span class="ed-label">Available</span>
+      <span class="ed-value">$182.40</span>
+    </div>
+    <div class="ed-desc">Accumulated rewards from rakeback, cashback, and level-up bonuses.</div>
+  </div>
+</div>
