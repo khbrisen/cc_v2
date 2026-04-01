@@ -925,6 +925,55 @@ a:hover { color: var(--text); }
 .game-placeholder p { font-size: 0.85rem; color: #888; margin-top: 8px; }
 
 /* VIP section reused at bottom of game page */
+/* ── Mini VIP Strip (Game Page) ───────────────────────────── */
+.game-mini-vip {
+  display: flex; align-items: stretch; gap: 10px;
+  padding: 10px 20px; border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+.mini-vip-pill {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border: 1px solid var(--border);
+  border-radius: var(--r-xs); background: var(--bg);
+  white-space: nowrap;
+}
+.mini-vip-label {
+  font-size: 0.65rem; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.03em;
+}
+.mini-vip-value {
+  font-family: var(--font-pixel); font-size: 0.72rem;
+  image-rendering: pixelated; font-weight: 700;
+}
+.mini-vip-green { color: var(--green); }
+.mini-vip-blue { color: var(--blue); }
+.mini-vip-orange { color: var(--orange); }
+
+.mini-vip-rakeback { border-color: rgba(0,184,148,0.2); }
+.mini-vip-cashback { border-color: rgba(9,132,227,0.2); }
+.mini-vip-claimable {
+  border-color: rgba(225,112,85,0.2);
+  margin-left: auto; gap: 10px;
+}
+
+.mini-vip-actions { display: flex; align-items: center; gap: 5px; }
+
+.mini-claim-btn, .mini-details-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.62rem; font-weight: 700; padding: 4px 10px;
+  border-radius: 4px; cursor: pointer; transition: all 0.12s;
+  height: 24px; box-sizing: border-box;
+}
+.mini-claim-btn {
+  color: #fff; background: var(--orange); border: none;
+}
+.mini-claim-btn:hover { background: #d35400; }
+.mini-details-btn {
+  color: var(--orange); background: var(--orange-bg);
+  border: 1px solid rgba(225,112,85,0.25);
+}
+.mini-details-btn:hover { background: rgba(225,112,85,0.15); }
+
 .game-vip-footer {
   border-top: 2px solid var(--accent-light);
   background: var(--surface);
@@ -936,4 +985,6 @@ a:hover { color: var(--text); }
   .game-page-iframe { min-height: 45vh; }
   .game-vip-footer { padding: 12px; }
   .game-vip-footer .vip-effects-strip { grid-template-columns: repeat(2, 1fr); }
+  .game-mini-vip { flex-wrap: wrap; padding: 8px 12px; gap: 6px; }
+  .mini-vip-claimable { margin-left: 0; width: 100%; }
 }
