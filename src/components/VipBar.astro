@@ -16,43 +16,46 @@
     </div>
   </div>
 
-  <!-- 4 Active Effect Panels -->
   <div class="vip-effects-strip">
     <div class="vip-effect-pill pill-rakeback">
-      <div class="pill-label">Rakeback</div>
+      <div class="pill-label-row">
+        <span class="pill-label">Rakeback</span>
+        <span class="pill-active-tag">Active</span>
+      </div>
       <div class="pill-value">12.5%</div>
       <div class="pill-sub">Per wager</div>
     </div>
 
     <div class="vip-effect-pill pill-cashback">
-      <div class="pill-label">Cashback</div>
+      <div class="pill-label-row">
+        <span class="pill-label">Cashback</span>
+        <span class="pill-active-tag">Active</span>
+      </div>
       <div class="pill-value">7.0%</div>
       <div class="pill-sub">Weekly</div>
     </div>
 
     <div class="vip-effect-pill pill-spins" id="spin-trigger">
-      <div class="pill-label">Free Spins</div>
+      <div class="pill-label-row">
+        <span class="pill-label">Free Spins</span>
+        <span class="pill-active-tag">Active</span>
+      </div>
       <div class="pill-value">45</div>
       <span class="spin-cta">Spin the Wheel &rarr;</span>
     </div>
 
     <div class="vip-effect-pill pill-claim" id="claim-trigger">
-      <div class="pill-label">Available</div>
+      <div class="pill-label-row">
+        <span class="pill-label">Available</span>
+        <span class="pill-active-tag">Active</span>
+      </div>
       <div class="pill-value">$182.40</div>
       <span class="claim-cta">Claim</span>
     </div>
   </div>
 
   <button class="vip-expand-btn" id="vip-expand-btn">
-    View all 100 VIP levels
+    View All 100 VIP Levels
     <span class="arrow">&#9660;</span>
   </button>
-</div>
-
-<!-- VIP Levels Drawer (expands below) -->
-<div class="vip-levels-drawer" id="vip-levels-drawer">
-  <div class="vip-levels-inner">
-    <!-- Left: scrollable levels list rendered by VipLevels component -->
-    <slot />
-  </div>
 </div>

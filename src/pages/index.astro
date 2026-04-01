@@ -20,50 +20,22 @@ import GameGrid from '../components/GameGrid.astro';
     </div>
 
     <div class="main-content">
-      <!-- VIP Bar with effects + expandable levels -->
-      <VipBar>
-        <VipLevels />
-      </VipBar>
+      <VipBar />
 
-      <!-- Live Wins Ticker -->
       <div class="ticker-bar">
         <div class="ticker-content">
-          <span class="ticker-item">&#127881; <span class="win-amount">0.482 BTC</span> won on <span class="win-game">Crypto Crash</span> by Player_x7f</span>
+          <span class="ticker-item">&#127881; <span class="win-amount">0.482 BTC</span> won on <span class="win-game">Crypto Crash</span></span>
           <span class="ticker-item">&#127942; <span class="win-amount">$12,400</span> jackpot on <span class="win-game">Mega Moolah</span></span>
-          <span class="ticker-item">&#127920; <span class="win-amount">1.2 ETH</span> won on <span class="win-game">Pixel Mines</span> by CryptoKing99</span>
-          <span class="ticker-item">&#128142; <span class="win-amount">0.15 BTC</span> won on <span class="win-game">Dragon Tower</span> by anon_4d2</span>
-          <span class="ticker-item">&#128293; <span class="win-amount">$8,300</span> on <span class="win-game">Plinko</span> by PixelWhale</span>
-          <span class="ticker-item">&#9889; <span class="win-amount">3.5 SOL</span> won on <span class="win-game">Dice Duel</span> by Sol_Maxi</span>
-          <span class="ticker-item">&#127881; <span class="win-amount">0.482 BTC</span> won on <span class="win-game">Crypto Crash</span> by Player_x7f</span>
+          <span class="ticker-item">&#127920; <span class="win-amount">1.2 ETH</span> won on <span class="win-game">Pixel Mines</span></span>
+          <span class="ticker-item">&#128142; <span class="win-amount">0.15 BTC</span> won on <span class="win-game">Dragon Tower</span></span>
+          <span class="ticker-item">&#128293; <span class="win-amount">$8,300</span> on <span class="win-game">Plinko</span></span>
+          <span class="ticker-item">&#9889; <span class="win-amount">3.5 SOL</span> won on <span class="win-game">Dice Duel</span></span>
+          <span class="ticker-item">&#127881; <span class="win-amount">0.482 BTC</span> won on <span class="win-game">Crypto Crash</span></span>
           <span class="ticker-item">&#127942; <span class="win-amount">$12,400</span> jackpot on <span class="win-game">Mega Moolah</span></span>
-          <span class="ticker-item">&#127920; <span class="win-amount">1.2 ETH</span> won on <span class="win-game">Pixel Mines</span> by CryptoKing99</span>
-          <span class="ticker-item">&#128142; <span class="win-amount">0.15 BTC</span> won on <span class="win-game">Dragon Tower</span> by anon_4d2</span>
-          <span class="ticker-item">&#128293; <span class="win-amount">$8,300</span> on <span class="win-game">Plinko</span> by PixelWhale</span>
-          <span class="ticker-item">&#9889; <span class="win-amount">3.5 SOL</span> won on <span class="win-game">Dice Duel</span> by Sol_Maxi</span>
-        </div>
-      </div>
-
-      <!-- Quick Stats -->
-      <div class="quick-stats">
-        <div class="stat-card">
-          <div class="stat-icon">&#127918;</div>
-          <div class="stat-value">2,847</div>
-          <div class="stat-label">Games</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">&#128100;</div>
-          <div class="stat-value">14.2K</div>
-          <div class="stat-label">Online</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">&#128176;</div>
-          <div class="stat-value">$2.4M</div>
-          <div class="stat-label">Won Today</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon">&#127942;</div>
-          <div class="stat-value">$847K</div>
-          <div class="stat-label">Jackpot</div>
+          <span class="ticker-item">&#127920; <span class="win-amount">1.2 ETH</span> won on <span class="win-game">Pixel Mines</span></span>
+          <span class="ticker-item">&#128142; <span class="win-amount">0.15 BTC</span> won on <span class="win-game">Dragon Tower</span></span>
+          <span class="ticker-item">&#128293; <span class="win-amount">$8,300</span> on <span class="win-game">Plinko</span></span>
+          <span class="ticker-item">&#9889; <span class="win-amount">3.5 SOL</span> won on <span class="win-game">Dice Duel</span></span>
         </div>
       </div>
 
@@ -92,25 +64,43 @@ import GameGrid from '../components/GameGrid.astro';
     </div>
   </div>
 
-  <!-- Spin Wheel Modal -->
+  <VipLevels />
   <SpinWheel />
 
   <script is:inline>
-    // ── VIP Levels Drawer Toggle ──────────────────────────────
+    // ── VIP Levels Overlay ────────────────────────────────────
     const expandBtn = document.getElementById('vip-expand-btn');
-    const drawer = document.getElementById('vip-levels-drawer');
+    const vipOverlay = document.getElementById('vip-overlay');
+    const vipClose = document.getElementById('vip-panel-close');
+    const pathScroll = document.getElementById('vip-path-scroll');
 
-    expandBtn.addEventListener('click', () => {
-      const isOpen = drawer.classList.toggle('open');
-      expandBtn.classList.toggle('expanded', isOpen);
-      expandBtn.querySelector('.arrow').innerHTML = isOpen ? '&#9650;' : '&#9660;';
+    function openVip() {
+      vipOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        const current = pathScroll.querySelector('.vip-node.current');
+        if (current) current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 150);
+    }
 
-      if (isOpen) {
-        setTimeout(() => {
-          const currentRow = document.querySelector('.vip-level-row.current');
-          if (currentRow) currentRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 200);
-      }
+    function closeVip() {
+      vipOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    expandBtn.addEventListener('click', openVip);
+    vipClose.addEventListener('click', closeVip);
+    vipOverlay.addEventListener('click', (e) => {
+      if (e.target === vipOverlay) closeVip();
+    });
+
+    // ── T&C Toggle ────────────────────────────────────────────
+    const tcBtn = document.getElementById('tc-toggle-btn');
+    const tcPanel = document.getElementById('tc-panel');
+
+    tcBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      tcPanel.classList.toggle('open');
     });
 
     // ── Spin Wheel ────────────────────────────────────────────
@@ -123,14 +113,14 @@ import GameGrid from '../components/GameGrid.astro';
     const canvas = document.getElementById('spin-canvas');
 
     const prizes = [
-      { label: '$5', color: '#c43e2a' },
-      { label: '$10', color: '#1e1e1e' },
-      { label: '$25', color: '#8a2c1e' },
-      { label: '$50', color: '#1e1e1e' },
-      { label: '10 FS', color: '#4a9eb5' },
-      { label: '$100', color: '#1e1e1e' },
-      { label: '25 FS', color: '#8860b4' },
-      { label: '$250', color: '#1e1e1e' },
+      { label: '$5', color: '#6c5ce7' },
+      { label: '$10', color: '#f5f5f7' },
+      { label: '$25', color: '#a29bfe' },
+      { label: '$50', color: '#f5f5f7' },
+      { label: '10 FS', color: '#0984e3' },
+      { label: '$100', color: '#f5f5f7' },
+      { label: '25 FS', color: '#00b894' },
+      { label: '$250', color: '#f5f5f7' },
     ];
 
     let currentAngle = 0;
@@ -153,31 +143,24 @@ import GameGrid from '../components/GameGrid.astro';
         ctx.closePath();
         ctx.fillStyle = prize.color;
         ctx.fill();
-
-        // Border between slices
-        ctx.strokeStyle = '#333';
+        ctx.strokeStyle = '#e8e8ea';
         ctx.lineWidth = 1;
         ctx.stroke();
 
-        // Text
         ctx.save();
         ctx.translate(cx, cy);
         ctx.rotate(start + sliceAngle / 2);
         ctx.textAlign = 'right';
-        ctx.fillStyle = '#f0e6d8';
-        ctx.font = '700 13px Inter, sans-serif';
-        ctx.fillText(prize.label, r - 16, 5);
+        ctx.fillStyle = prize.color === '#f5f5f7' ? '#1a1a1a' : '#fff';
+        ctx.font = '700 12px Inter, sans-serif';
+        ctx.fillText(prize.label, r - 14, 4);
         ctx.restore();
       });
 
-      // Center circle
       ctx.beginPath();
-      ctx.arc(cx, cy, 20, 0, 2 * Math.PI);
-      ctx.fillStyle = '#d4a54a';
+      ctx.arc(cx, cy, 18, 0, 2 * Math.PI);
+      ctx.fillStyle = '#6c5ce7';
       ctx.fill();
-      ctx.strokeStyle = '#1e1e1e';
-      ctx.lineWidth = 2;
-      ctx.stroke();
     }
 
     drawWheel();
@@ -204,7 +187,6 @@ import GameGrid from '../components/GameGrid.astro';
 
       const winIndex = Math.floor(Math.random() * prizes.length);
       const sliceAngle = 360 / prizes.length;
-      // Land in the middle of the winning slice, pointer is at top (270deg in wheel coords)
       const targetAngle = 360 * 5 + (360 - (winIndex * sliceAngle + sliceAngle / 2));
 
       currentAngle += targetAngle;
@@ -224,7 +206,7 @@ import GameGrid from '../components/GameGrid.astro';
       const cta = claimTrigger.querySelector('.claim-cta');
       const val = claimTrigger.querySelector('.pill-value');
       cta.textContent = 'Claimed!';
-      cta.style.background = '#4caf6e';
+      cta.style.background = '#00b894';
       val.textContent = '$0.00';
       setTimeout(() => {
         cta.textContent = 'Claim';
@@ -233,7 +215,7 @@ import GameGrid from '../components/GameGrid.astro';
       }, 2000);
     });
 
-    // ── Mobile Sidebar Toggle ─────────────────────────────────
+    // ── Mobile Sidebar ────────────────────────────────────────
     const mobileToggle = document.getElementById('mobile-toggle');
     if (mobileToggle) {
       mobileToggle.addEventListener('click', () => {
@@ -241,9 +223,10 @@ import GameGrid from '../components/GameGrid.astro';
       });
     }
 
-    // ── ESC to close overlays ─────────────────────────────────
+    // ── ESC to close ──────────────────────────────────────────
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
+        closeVip();
         closeSpin();
       }
     });

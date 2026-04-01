@@ -26,68 +26,136 @@ const tiers = [
 const numerals = ['I', 'II', 'III', 'IV', 'V'];
 const currentLevel = 37;
 
+const rewards = [
+  '$5 Bonus', '$10 Bonus', '5 Free Spins', '$15 Bonus', '10 FS + Rakeback Boost',
+  '$20 Bonus', '15 Free Spins', '$25 Bonus', '20 FS + Cashback Boost', '$50 Bonus',
+  '$30 Bonus', '25 Free Spins', '$35 Bonus', '$40 Bonus', '30 FS + Rakeback Boost',
+  '$60 Bonus', '35 Free Spins', '$75 Bonus', '40 FS + Cashback Boost', '$100 Bonus',
+];
+
 const levels = Array.from({ length: 100 }, (_, i) => {
   const num = i + 1;
   const tier = tiers.find(t => num >= t.range[0] && num <= t.range[1])!;
   const subIndex = (num - tier.range[0]) % 5;
   const name = num === 100 ? 'MAXED' : `${tier.prefix} ${numerals[subIndex]}`;
+  const isMilestone = num % 5 === 0 || num === 1 || num === currentLevel;
+  const reward = rewards[Math.floor((num - 1) / 5) % rewards.length];
   return {
-    num,
-    name,
-    icon: tier.icon,
+    num, name, icon: tier.icon, isMilestone, reward,
+    completed: num < currentLevel,
     current: num === currentLevel,
     locked: num > currentLevel,
   };
 });
 ---
-<!-- Left: Scrollable Levels -->
-<div class="vip-levels-list">
-  <div class="vip-levels-list-title">All Levels</div>
-  {levels.map(l => (
-    <div class={`vip-level-row ${l.current ? 'current' : ''} ${l.locked ? 'locked' : ''}`}
-         data-level={l.num}>
-      <span class="vip-level-num">{String(l.num).padStart(2, '0')}</span>
-      <span class="vip-level-icon">{l.icon}</span>
-      <span class="vip-level-name-text">{l.name}</span>
-      {l.current && <span class="vip-level-tag tag-you">YOU</span>}
-      {l.locked && <span class="vip-level-tag tag-locked">🔒</span>}
+<div class="vip-overlay" id="vip-overlay">
+  <div class="vip-panel">
+    <div class="vip-panel-header">
+      <h2>VIP Levels</h2>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="info-btn" id="tc-toggle-btn" title="Terms & Conditions">i</button>
+        <button class="vip-panel-close" id="vip-panel-close">&times;</button>
+      </div>
     </div>
-  ))}
-</div>
 
-<!-- Right: Effect Details for Current Level -->
-<div class="vip-effects-detail">
-  <div class="vip-effects-detail-title">Level 37 Perks</div>
-
-  <div class="effect-detail-card ed-rakeback">
-    <div class="ed-top">
-      <span class="ed-label">Rakeback</span>
-      <span class="ed-value">12.5%</span>
+    <!-- Left: Vertical path (Marvel Snap style) -->
+    <div class="vip-path-scroll" id="vip-path-scroll">
+      <div class="vip-path">
+        {levels.map(l => (
+          <div class={`vip-node ${l.isMilestone ? 'milestone' : ''} ${l.completed ? 'completed' : ''} ${l.current ? 'current' : ''} ${l.locked ? 'locked' : ''}`}
+               data-level={l.num}>
+            <div class="vip-node-dot">
+              {l.isMilestone
+                ? <span class="node-emoji">{l.icon}</span>
+                : <span class="node-num">{l.num}</span>
+              }
+            </div>
+            <div class="vip-node-card">
+              <div class="node-name">{l.name}</div>
+              <div class="node-reward">{l.reward}</div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-    <div class="ed-desc">Earn back 12.5% of house edge on every wager. Credited instantly.</div>
-  </div>
 
-  <div class="effect-detail-card ed-cashback">
-    <div class="ed-top">
-      <span class="ed-label">Cashback</span>
-      <span class="ed-value">7.0%</span>
-    </div>
-    <div class="ed-desc">Weekly cashback on net losses. No wagering requirement.</div>
-  </div>
+    <!-- Right: Current perks + potential rewards -->
+    <div class="vip-perks-panel">
+      <div class="vip-perks-title">Level 37 — Active Perks</div>
 
-  <div class="effect-detail-card ed-spins">
-    <div class="ed-top">
-      <span class="ed-label">Free Spins</span>
-      <span class="ed-value">45</span>
-    </div>
-    <div class="ed-desc">Monthly spins at $0.20 value each. Winnings paid as cash.</div>
-  </div>
+      <div class="perk-card perk-rakeback">
+        <div class="perk-top">
+          <span class="perk-label">Rakeback</span>
+          <span class="perk-value">12.5%</span>
+        </div>
+        <div class="perk-desc">Earn back 12.5% of house edge on every wager. Credited instantly.</div>
+      </div>
 
-  <div class="effect-detail-card ed-claim">
-    <div class="ed-top">
-      <span class="ed-label">Available</span>
-      <span class="ed-value">$182.40</span>
+      <div class="perk-card perk-cashback">
+        <div class="perk-top">
+          <span class="perk-label">Cashback</span>
+          <span class="perk-value">7.0%</span>
+        </div>
+        <div class="perk-desc">Weekly cashback on net losses. No wagering requirement.</div>
+      </div>
+
+      <div class="perk-card perk-spins">
+        <div class="perk-top">
+          <span class="perk-label">Free Spins</span>
+          <span class="perk-value">45 / mo</span>
+        </div>
+        <div class="perk-desc">Monthly spins at $0.20 value. Winnings credited as cash.</div>
+      </div>
+
+      <div class="perk-card perk-claim">
+        <div class="perk-top">
+          <span class="perk-label">Claimable</span>
+          <span class="perk-value">$182.40</span>
+        </div>
+        <div class="perk-desc">Accumulated rewards from rakeback, cashback, and level-up bonuses.</div>
+      </div>
+
+      <div class="vip-perks-title" style="margin-top: 12px;">Next Reward — Level 40</div>
+
+      <div class="perk-card">
+        <div class="perk-top">
+          <span class="perk-label">Level-up Bonus</span>
+          <span class="perk-value" style="color: var(--accent);">$100</span>
+        </div>
+        <div class="perk-desc">Reach Ruby I to unlock $100 bonus + 15% Rakeback + 8% Cashback.</div>
+      </div>
     </div>
-    <div class="ed-desc">Accumulated rewards from rakeback, cashback, and level-up bonuses.</div>
+
+    <!-- T&C Expandable Panel -->
+    <div class="tc-panel" id="tc-panel">
+      <div class="tc-inner">
+        <h4>XP Contribution by Game Category</h4>
+        <p>XP is earned as a function of turnover. Different game categories contribute at different rates:</p>
+        <table>
+          <thead>
+            <tr><th>Category</th><th>XP per $1 Turnover</th><th>Contribution</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Slots</td><td>1.0 XP</td><td>100%</td></tr>
+            <tr><td>Live Casino</td><td>0.5 XP</td><td>50%</td></tr>
+            <tr><td>Table Games</td><td>0.25 XP</td><td>25%</td></tr>
+            <tr><td>Sports Betting</td><td>0.15 XP</td><td>15%</td></tr>
+            <tr><td>Crash / Originals</td><td>0.75 XP</td><td>75%</td></tr>
+          </tbody>
+        </table>
+
+        <h4>Rakeback Terms</h4>
+        <p>Rakeback is calculated on the theoretical house edge of each wager, not the outcome. It is credited instantly after each settled bet. Rate increases with VIP level.</p>
+
+        <h4>Cashback Terms</h4>
+        <p>Weekly cashback is calculated on net losses (deposits minus withdrawals minus pending balance) from Monday 00:00 UTC to Sunday 23:59 UTC. Credited the following Monday. No wagering requirement.</p>
+
+        <h4>Free Spins Terms</h4>
+        <p>Free spins are credited monthly on the 1st. Spin value and count depend on VIP level. Winnings from free spins are credited as withdrawable cash with no wagering requirement. Unused spins expire at month end.</p>
+
+        <h4>Level Progression</h4>
+        <p>VIP levels are permanent — you never lose progress. XP requirements increase per level. Rewards are claimed manually. All bonuses are subject to platform Terms of Service.</p>
+      </div>
+    </div>
   </div>
 </div>
