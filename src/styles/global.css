@@ -255,8 +255,9 @@ a:hover { color: var(--text); }
 }
 
 .pill-value {
-  font-family: var(--font-pixel); font-size: 0.72rem;
+  font-family: var(--font-pixel); font-size: 1rem;
   image-rendering: pixelated; line-height: 1;
+  margin: 4px 0 2px;
 }
 
 .pill-sub { font-size: 0.78rem; color: var(--text-muted); margin-top: 3px; }
@@ -362,33 +363,33 @@ a:hover { color: var(--text); }
 
 /* Connector line between nodes */
 .vp-connector {
-  width: 3px; height: 20px; background: var(--border); margin: 0 auto;
+  width: 3px; height: 40px; background: var(--border); margin: 0 auto;
 }
 .vp-connector.filled { background: var(--accent); }
 
 /* The dot */
 .vp-dot {
-  width: 28px; height: 28px; border-radius: 50%;
+  width: 32px; height: 32px; border-radius: 50%;
   background: var(--surface); border: 3px solid var(--border);
   display: flex; align-items: center; justify-content: center;
   position: relative; z-index: 2; transition: all 0.15s;
 }
 
 .vp-dot-num {
-  font-family: var(--font-pixel); font-size: 0.28rem;
+  font-family: var(--font-pixel); font-size: 0.3rem;
   color: var(--text-muted); image-rendering: pixelated;
 }
 
 /* Milestone: bigger dot */
 .vp-node.milestone .vp-dot {
-  width: 36px; height: 36px; border-width: 3px;
+  width: 40px; height: 40px; border-width: 3px;
 }
-.vp-node.milestone .vp-dot-num { font-size: 0.32rem; }
+.vp-node.milestone .vp-dot-num { font-size: 0.35rem; }
 
 /* Non-milestone: small dot, no card */
-.vp-node:not(.milestone) .vp-dot { width: 14px; height: 14px; border-width: 2px; }
+.vp-node:not(.milestone) .vp-dot { width: 16px; height: 16px; border-width: 2px; }
 .vp-node:not(.milestone) .vp-dot-num { display: none; }
-.vp-node:not(.milestone) .vp-connector { height: 8px; }
+.vp-node:not(.milestone) .vp-connector { height: 16px; }
 
 /* States */
 .vp-node.done .vp-dot { border-color: var(--green); background: var(--green-bg); }
@@ -414,8 +415,8 @@ a:hover { color: var(--text); }
 
 .vp-node:not(.milestone) .vp-card { display: none; }
 
-.vp-node.milestone:nth-child(odd) .vp-card { left: calc(50% + 28px); }
-.vp-node.milestone:nth-child(even) .vp-card { right: calc(50% + 28px); }
+.vp-node.milestone:nth-child(odd) .vp-card { left: calc(50% + 32px); }
+.vp-node.milestone:nth-child(even) .vp-card { right: calc(50% + 32px); }
 
 .vp-card-name { font-size: 0.82rem; font-weight: 700; color: var(--text); }
 .vp-card-xp { font-size: 0.68rem; color: var(--text-muted); }
@@ -580,7 +581,8 @@ a:hover { color: var(--text); }
   border-radius: var(--r); overflow: hidden; cursor: pointer; transition: all 0.15s; position: relative;
 }
 .game-card:hover { border-color: var(--accent-light); transform: translateY(-3px); box-shadow: var(--shadow-md); }
-.game-card-img { width: 100%; height: 180px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+.game-card-img { width: 100%; height: 180px; background: var(--surface-alt); display: flex; align-items: center; justify-content: center; font-size: 3rem; overflow: hidden; }
+.game-card-img img { width: 100%; height: 100%; object-fit: cover; }
 .game-card-body { padding: 10px 12px; }
 .game-card-body h4 { font-size: 0.88rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
 .game-card-body .game-provider { font-size: 0.75rem; color: var(--text-muted); }
@@ -648,7 +650,7 @@ a:hover { color: var(--text); }
   .vip-progress { height: 18px; }
   .vip-progress-label { font-size: 0.32rem; }
   .pill-label { font-size: 0.6rem; }
-  .pill-value { font-size: 0.62rem; }
+  .pill-value { font-size: 0.85rem; }
   .pill-active-tag { font-size: 0.5rem; }
   .pill-sub { font-size: 0.72rem; }
   .vip-effect-pill { padding: 12px 14px; }

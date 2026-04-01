@@ -1,17 +1,28 @@
 ---
+const images = [
+  '/images/FC-SLOT-004.jpeg',
+  '/images/FC-SLOT-007.jpeg',
+  '/images/FC-SLOT-024.jpeg',
+  '/images/FC-SLOT-028.jpeg',
+  '/images/FC-SLOT-041.png',
+  '/images/FC-SLOT-043.png',
+  '/images/FC-SLOT-048.png',
+  '/images/JILI-SLOT-193.webp',
+];
+
 const games = [
-  { name: 'Pixel Mines', provider: 'PixelBet', emoji: '💣', tag: 'hot' },
-  { name: 'Crypto Crash', provider: 'ChainGames', emoji: '📈', tag: 'hot' },
-  { name: 'Dragon Tower', provider: 'PixelBet', emoji: '🐉', tag: 'popular' },
-  { name: 'Coin Flip', provider: 'ProvablyFair', emoji: '🪙', tag: null },
-  { name: 'Dice Duel', provider: 'PixelBet', emoji: '🎲', tag: null },
-  { name: 'Plinko', provider: 'RetroGames', emoji: '⚡', tag: 'new' },
-  { name: 'Keno', provider: 'RetroGames', emoji: '🔢', tag: null },
-  { name: 'Hilo', provider: 'ChainGames', emoji: '⬆️', tag: null },
-  { name: 'Blackjack', provider: 'PixelBet', emoji: '🃏', tag: 'popular' },
-  { name: 'Roulette', provider: 'RetroGames', emoji: '🎡', tag: 'new' },
-  { name: 'Limbo', provider: 'ChainGames', emoji: '🏃', tag: null },
-  { name: 'Wheel', provider: 'PixelBet', emoji: '🎯', tag: 'hot' },
+  { name: 'Pixel Mines', provider: 'PixelBet', img: images[0], tag: 'hot' },
+  { name: 'Crypto Crash', provider: 'ChainGames', img: images[1], tag: 'hot' },
+  { name: 'Dragon Tower', provider: 'PixelBet', img: images[2], tag: 'popular' },
+  { name: 'Coin Flip', provider: 'ProvablyFair', img: images[3], tag: null },
+  { name: 'Dice Duel', provider: 'PixelBet', img: images[4], tag: null },
+  { name: 'Plinko', provider: 'RetroGames', img: images[5], tag: 'new' },
+  { name: 'Keno', provider: 'RetroGames', img: images[6], tag: null },
+  { name: 'Hilo', provider: 'ChainGames', img: images[7], tag: null },
+  { name: 'Blackjack', provider: 'PixelBet', img: images[0], tag: 'popular' },
+  { name: 'Roulette', provider: 'RetroGames', img: images[1], tag: 'new' },
+  { name: 'Limbo', provider: 'ChainGames', img: images[2], tag: null },
+  { name: 'Wheel', provider: 'PixelBet', img: images[3], tag: 'hot' },
 ];
 ---
 <div class="section-header">
@@ -23,7 +34,9 @@ const games = [
     {games.map(game => (
       <div class="game-card">
         {game.tag && <span class={`game-tag ${game.tag}`}>{game.tag}</span>}
-        <div class="game-card-img">{game.emoji}</div>
+        <div class="game-card-img">
+          <img src={game.img} alt={game.name} loading="lazy" />
+        </div>
         <div class="game-card-body">
           <h4>{game.name}</h4>
           <span class="game-provider">{game.provider}</span>

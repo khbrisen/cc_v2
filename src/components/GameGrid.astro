@@ -1,17 +1,28 @@
 ---
+const images = [
+  '/images/FC-SLOT-004.jpeg',
+  '/images/FC-SLOT-007.jpeg',
+  '/images/FC-SLOT-024.jpeg',
+  '/images/FC-SLOT-028.jpeg',
+  '/images/FC-SLOT-041.png',
+  '/images/FC-SLOT-043.png',
+  '/images/FC-SLOT-048.png',
+  '/images/JILI-SLOT-193.webp',
+];
+
 const slots = [
-  { name: 'Book of Dead', provider: 'Play\'n GO', emoji: '📖' },
-  { name: 'Sweet Bonanza', provider: 'Pragmatic', emoji: '🍬' },
-  { name: 'Gates of Olympus', provider: 'Pragmatic', emoji: '⚡' },
-  { name: 'Mega Moolah', provider: 'Microgaming', emoji: '🦁' },
-  { name: 'Starburst', provider: 'NetEnt', emoji: '⭐' },
-  { name: 'Big Bass Splash', provider: 'Pragmatic', emoji: '🐟' },
-  { name: 'Wolf Gold', provider: 'Pragmatic', emoji: '🐺' },
-  { name: 'Reactoonz', provider: 'Play\'n GO', emoji: '👾' },
-  { name: 'Gonzo\'s Quest', provider: 'NetEnt', emoji: '🗿' },
-  { name: 'Dead or Alive', provider: 'NetEnt', emoji: '🤠' },
-  { name: 'Jammin\' Jars', provider: 'Push Gaming', emoji: '🫙' },
-  { name: 'Fire Joker', provider: 'Play\'n GO', emoji: '🃏' },
+  { name: 'Book of Dead', provider: 'Play\'n GO', img: images[0] },
+  { name: 'Sweet Bonanza', provider: 'Pragmatic', img: images[1] },
+  { name: 'Gates of Olympus', provider: 'Pragmatic', img: images[2] },
+  { name: 'Mega Moolah', provider: 'Microgaming', img: images[3] },
+  { name: 'Starburst', provider: 'NetEnt', img: images[4] },
+  { name: 'Big Bass Splash', provider: 'Pragmatic', img: images[5] },
+  { name: 'Wolf Gold', provider: 'Pragmatic', img: images[6] },
+  { name: 'Reactoonz', provider: 'Play\'n GO', img: images[7] },
+  { name: 'Gonzo\'s Quest', provider: 'NetEnt', img: images[0] },
+  { name: 'Dead or Alive', provider: 'NetEnt', img: images[1] },
+  { name: 'Jammin\' Jars', provider: 'Push Gaming', img: images[2] },
+  { name: 'Fire Joker', provider: 'Play\'n GO', img: images[3] },
 ];
 ---
 <div class="section-header">
@@ -33,7 +44,9 @@ const slots = [
     const href = game.name === 'Book of Dead' ? '/play/book-of-dead/' : '#';
     return (
       <a class="game-card" href={href} style="text-decoration:none;color:inherit;">
-        <div class="game-card-img">{game.emoji}</div>
+        <div class="game-card-img">
+          <img src={game.img} alt={game.name} loading="lazy" />
+        </div>
         <div class="game-card-body">
           <h4>{game.name}</h4>
           <span class="game-provider">{game.provider}</span>
