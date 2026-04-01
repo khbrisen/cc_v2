@@ -90,6 +90,39 @@ import GameGrid from '../components/GameGrid.astro';
     </div>
   </nav>
 
+  <!-- Booster Selection Modal -->
+  <div class="info-popup-overlay" id="booster-overlay">
+    <div class="info-popup booster-popup">
+      <button class="info-popup-close" data-close="booster-overlay">&times;</button>
+      <h3>🔥 Choose a Rakeback Booster</h3>
+      <p class="booster-desc">Activate a temporary boost on top of your base rakeback rate.</p>
+      <div class="booster-carousel">
+        <div class="booster-card" data-boost="1" data-hours="1">
+          <div class="booster-badge">Starter</div>
+          <div class="booster-percent">+1%</div>
+          <div class="booster-duration">1 Hour</div>
+          <div class="booster-detail">11.5% total rakeback</div>
+          <button class="booster-activate-btn">Activate</button>
+        </div>
+        <div class="booster-card booster-card-popular" data-boost="2" data-hours="3">
+          <div class="booster-popular-tag">Popular</div>
+          <div class="booster-badge">Power</div>
+          <div class="booster-percent">+2%</div>
+          <div class="booster-duration">3 Hours</div>
+          <div class="booster-detail">12.5% total rakeback</div>
+          <button class="booster-activate-btn">Activate</button>
+        </div>
+        <div class="booster-card" data-boost="5" data-hours="6">
+          <div class="booster-badge">Ultra</div>
+          <div class="booster-percent">+5%</div>
+          <div class="booster-duration">6 Hours</div>
+          <div class="booster-detail">15.5% total rakeback</div>
+          <button class="booster-activate-btn">Activate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Claimable Details Modal -->
   <div class="info-popup-overlay" id="claim-details-overlay">
     <div class="info-popup claim-details-popup">
@@ -120,24 +153,59 @@ import GameGrid from '../components/GameGrid.astro';
 
   <script is:inline>
     // ── Boost Countdown Timer ─────────────────────────────────
-    (function() {
-      // Boost expires 2h 47m 33s from page load (demo)
-      let boostEnd = Date.now() + (2 * 3600 + 47 * 60 + 33) * 1000;
-      const timerEls = document.querySelectorAll('.boost-timer');
+    let boostEnd = Date.now() + (2 * 3600 + 47 * 60 + 33) * 1000;
+    const timerEls = document.querySelectorAll('.boost-timer');
 
-      function updateBoostTimers() {
-        const remaining = Math.max(0, boostEnd - Date.now());
-        const h = Math.floor(remaining / 3600000);
-        const m = Math.floor((remaining % 3600000) / 60000);
-        const s = Math.floor((remaining % 60000) / 1000);
-        const text = h > 0
-          ? `${h}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`
-          : `${m}m ${String(s).padStart(2,'0')}s`;
-        timerEls.forEach(el => el.textContent = text);
-        if (remaining > 0) requestAnimationFrame(updateBoostTimers);
-      }
-      updateBoostTimers();
-    })();
+    function updateBoostTimers() {
+      const remaining = Math.max(0, boostEnd - Date.now());
+      const h = Math.floor(remaining / 3600000);
+      const m = Math.floor((remaining % 3600000) / 60000);
+      const s = Math.floor((remaining % 60000) / 1000);
+      const text = h > 0
+        ? `${h}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`
+        : `${m}m ${String(s).padStart(2,'0')}s`;
+      timerEls.forEach(el => el.textContent = text);
+      if (remaining > 0) requestAnimationFrame(updateBoostTimers);
+    }
+    updateBoostTimers();
+
+    // ── Booster Selection ─────────────────────────────────────
+    const addBoosterBtn = document.getElementById('add-booster-btn');
+    const boostTag = document.querySelector('.pill-boost-tag');
+    const rakebackValue = document.querySelector('.pill-rakeback .pill-value');
+
+    addBoosterBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openPopup('booster-overlay');
+    });
+
+    document.querySelectorAll('.booster-activate-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const card = btn.closest('.booster-card');
+        const boostPct = parseInt(card.dataset.boost);
+        const hours = parseInt(card.dataset.hours);
+
+        // Reset timer
+        boostEnd = Date.now() + hours * 3600 * 1000;
+        updateBoostTimers();
+
+        // Update pill boost tag and value
+        boostTag.textContent = '🔥 +' + boostPct + '%';
+        rakebackValue.textContent = (10.5 + boostPct).toFixed(1) + '%';
+
+        // Flash the activated card
+        btn.textContent = 'Activated!';
+        btn.style.background = '#00b894';
+
+        // Close popup after short delay
+        setTimeout(() => {
+          closePopup('booster-overlay');
+          btn.textContent = 'Activate';
+          btn.style.background = '';
+        }, 800);
+      });
+    });
 
     // ── VIP Levels Overlay ────────────────────────────────────
     const expandBtn = document.getElementById('vip-expand-btn');
