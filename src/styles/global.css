@@ -230,22 +230,22 @@ a:hover { color: var(--text); }
 
 @keyframes shine { 0% { left: -40%; } 100% { left: 140%; } }
 
-/* ── Rakeback Boost Banner ────────────────────────────────── */
-.rakeback-boost-banner {
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 8px 16px; margin-bottom: 12px;
-  background: linear-gradient(90deg, rgba(255,107,0,0.12), rgba(255,60,0,0.08));
-  border: 1px solid rgba(255,107,0,0.3);
-  border-radius: var(--r-sm);
-  font-family: var(--font-pixel); font-size: 0.6rem;
-  color: #e17055; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.08em; image-rendering: pixelated;
+/* ── Rakeback Boost Header Button ─────────────────────────── */
+.btn-rakeback-boost {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 14px; border: 1px solid rgba(255,107,0,0.35);
+  border-radius: var(--r-xs); background: rgba(255,107,0,0.08);
+  color: #e17055; font-family: var(--font); font-size: 0.75rem;
+  font-weight: 700; cursor: pointer; transition: all 0.12s;
   animation: boost-pulse 2s ease-in-out infinite;
+}
+.btn-rakeback-boost:hover {
+  background: rgba(255,107,0,0.15); border-color: rgba(255,107,0,0.5);
 }
 
 @keyframes boost-pulse {
-  0%, 100% { border-color: rgba(255,107,0,0.3); }
-  50% { border-color: rgba(255,107,0,0.6); }
+  0%, 100% { border-color: rgba(255,107,0,0.35); }
+  50% { border-color: rgba(255,107,0,0.65); }
 }
 
 /* ── VIP Effects Strip ────────────────────────────────────── */
@@ -303,30 +303,32 @@ a:hover { color: var(--text); }
 .pill-claim .pill-active-tag { background: var(--orange-bg); color: var(--orange); }
 
 .claim-cta {
-  display: inline-block; font-size: 0.68rem; font-weight: 700;
-  color: #fff; background: var(--orange); padding: 5px 14px;
-  border-radius: 4px; margin-top: 5px; transition: background 0.12s;
+  color: #fff; background: var(--orange); border: none;
 }
 .pill-claim:hover .claim-cta { background: #d35400; }
 
 .pill-boost-tag {
   font-size: 0.52rem; font-weight: 700; padding: 2px 6px;
-  border-radius: 3px; text-transform: uppercase;
-  background: linear-gradient(135deg, rgba(255,107,0,0.15), rgba(255,60,0,0.1));
-  color: #e17055; border: 1px solid rgba(255,107,0,0.25);
-  animation: boost-pulse 2s ease-in-out infinite;
+  border-radius: 3px;
+  background: var(--green-bg); color: var(--green);
+  border: 1px solid rgba(0,184,148,0.25);
 }
 
 .pill-claim-actions {
   display: flex; align-items: center; gap: 6px; margin-top: 5px;
 }
 
-.claim-details-cta {
-  display: inline-block; font-size: 0.68rem; font-weight: 700;
-  color: var(--orange); background: var(--orange-bg);
+.claim-cta, .claim-details-cta {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.68rem; font-weight: 700;
   padding: 5px 14px; border-radius: 4px;
-  border: 1px solid rgba(225,112,85,0.25);
   transition: all 0.12s; cursor: pointer;
+  height: 28px; box-sizing: border-box;
+}
+
+.claim-details-cta {
+  color: var(--orange); background: var(--orange-bg);
+  border: 1px solid rgba(225,112,85,0.25);
 }
 .claim-details-cta:hover { background: rgba(225,112,85,0.15); }
 
@@ -369,6 +371,15 @@ a:hover { color: var(--text); }
 .breakdown-total {
   font-size: 0.95rem; color: var(--orange); font-weight: 700;
 }
+
+.breakdown-claim-btn {
+  display: block; width: 100%; margin-top: 16px; padding: 10px;
+  background: var(--orange); color: #fff; border: none;
+  border-radius: var(--r-sm); font-family: var(--font);
+  font-size: 0.85rem; font-weight: 700; cursor: pointer;
+  transition: background 0.12s;
+}
+.breakdown-claim-btn:hover { background: #d35400; }
 
 /* ── VIP Expand Button ────────────────────────────────────── */
 .vip-expand-btn {

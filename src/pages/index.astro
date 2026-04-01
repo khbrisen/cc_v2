@@ -24,6 +24,7 @@ import GameGrid from '../components/GameGrid.astro';
       </nav>
     </div>
     <div class="header-right">
+      <button class="btn-rakeback-boost">🔥 Rakeback Boost</button>
       <button class="btn-outline">Log In</button>
       <button class="btn-primary">Register</button>
     </div>
@@ -110,6 +111,7 @@ import GameGrid from '../components/GameGrid.astro';
           <span class="breakdown-value breakdown-total">$182.40</span>
         </div>
       </div>
+      <button class="breakdown-claim-btn" id="breakdown-claim-btn">Claim $182.40</button>
     </div>
   </div>
 
@@ -220,11 +222,15 @@ import GameGrid from '../components/GameGrid.astro';
     const claimValue = document.getElementById('claim-value');
     const claimCta = document.getElementById('claim-cta');
     const balanceEl = document.getElementById('balance-amount');
+    const breakdownClaimBtn = document.getElementById('breakdown-claim-btn');
     let currentBalance = 4207.83;
     const claimAmount = 182.40;
 
-    claimTrigger.addEventListener('click', () => {
+    function doClaim() {
       if (claimCta.textContent === 'Claimed!') return;
+
+      // Close details modal if open
+      closePopup('claim-details-overlay');
 
       // Get positions for animation
       const claimRect = claimTrigger.getBoundingClientRect();
@@ -280,11 +286,13 @@ import GameGrid from '../components/GameGrid.astro';
         claimCta.textContent = 'Claim';
         claimCta.style.background = '';
         claimValue.textContent = '$182.40';
-        // Reset balance back for demo
         currentBalance = 4207.83;
         balanceEl.textContent = '$4,207.83';
       }, 3500);
-    });
+    }
+
+    claimTrigger.addEventListener('click', doClaim);
+    breakdownClaimBtn.addEventListener('click', doClaim);
 
     // ── Claim Details Modal ─────────────────────────────────────
     const claimDetailsBtn = document.getElementById('claim-details-btn');
