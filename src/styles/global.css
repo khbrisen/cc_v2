@@ -310,8 +310,8 @@ a:hover { color: var(--text); }
 .pill-boost-tag {
   font-size: 0.52rem; font-weight: 700; padding: 2px 6px;
   border-radius: 3px;
-  background: var(--green-bg); color: var(--green);
-  border: 1px solid rgba(0,184,148,0.25);
+  background: rgba(255,107,0,0.1); color: #e17055;
+  border: 1px solid rgba(255,107,0,0.25);
 }
 
 .pill-claim-actions {
@@ -370,6 +370,34 @@ a:hover { color: var(--text); }
 
 .breakdown-total {
   font-size: 0.95rem; color: var(--orange); font-weight: 700;
+}
+
+/* ── Rate Breakdown (Rakeback/Cashback Popups) ───────────── */
+.rate-breakdown {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r-sm); padding: 12px 14px;
+  margin: 12px 0; display: flex; flex-direction: column; gap: 8px;
+}
+.rate-breakdown-row {
+  display: flex; justify-content: space-between; align-items: center;
+}
+.rate-breakdown-label {
+  font-size: 0.82rem; font-weight: 600; color: var(--text-secondary);
+}
+.rate-breakdown-value {
+  font-family: var(--font-pixel); font-size: 0.75rem;
+  image-rendering: pixelated; font-weight: 700;
+}
+.rate-green { color: var(--green); }
+.rate-orange { color: #e17055; }
+.rate-breakdown-divider {
+  height: 1px; background: var(--border); margin: 2px 0;
+}
+.rate-breakdown-total .rate-breakdown-label {
+  font-weight: 700; color: var(--text);
+}
+.rate-breakdown-total .rate-breakdown-value {
+  color: var(--text); font-size: 0.8rem;
 }
 
 .breakdown-claim-btn {
