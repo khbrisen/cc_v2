@@ -1,0 +1,41 @@
+---
+const slots = [
+  { name: 'Book of Dead 8-Bit', provider: 'RetroPlay', emoji: '📖' },
+  { name: 'Sweet Bonanza Pixel', provider: 'PragmaticPX', emoji: '🍬' },
+  { name: 'Gates of Olympus', provider: 'PragmaticPX', emoji: '⚡' },
+  { name: 'Mega Moolah NES', provider: 'MicroPX', emoji: '🦁' },
+  { name: 'Starburst Classic', provider: 'NetRetro', emoji: '⭐' },
+  { name: 'Big Bass Pixel', provider: 'PragmaticPX', emoji: '🐟' },
+  { name: 'Wolf Gold 64', provider: 'PragmaticPX', emoji: '🐺' },
+  { name: 'Reactoonz 2P', provider: 'PlayNPX', emoji: '👾' },
+  { name: 'Gonzos Quest', provider: 'NetRetro', emoji: '🗿' },
+  { name: 'Dead or Alive', provider: 'NetRetro', emoji: '🤠' },
+  { name: 'Jammin Jars 8B', provider: 'PushPX', emoji: '🫙' },
+  { name: 'Fire Joker Retro', provider: 'PlayNPX', emoji: '🃏' },
+];
+---
+<div class="section-header">
+  <h3>Slots</h3>
+  <a class="see-all" href="#">See All →</a>
+</div>
+
+<div class="category-tabs">
+  <span class="cat-tab active">All</span>
+  <span class="cat-tab">New</span>
+  <span class="cat-tab">Popular</span>
+  <span class="cat-tab">Megaways</span>
+  <span class="cat-tab">Jackpot</span>
+  <span class="cat-tab">Buy Bonus</span>
+</div>
+
+<div class="games-grid">
+  {slots.map(game => (
+    <div class="game-card">
+      <div class="game-card-img">{game.emoji}</div>
+      <div class="game-card-body">
+        <h4>{game.name}</h4>
+        <span class="game-provider">{game.provider}</span>
+      </div>
+    </div>
+  ))}
+</div>

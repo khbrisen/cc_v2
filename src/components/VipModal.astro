@@ -1,0 +1,97 @@
+---
+const tierNames: Record<number, string> = {
+  1: 'Copper I', 2: 'Copper II', 3: 'Copper III', 4: 'Copper IV', 5: 'Copper V',
+  6: 'Bronze I', 7: 'Bronze II', 8: 'Bronze III', 9: 'Bronze IV', 10: 'Bronze V',
+  11: 'Silver I', 12: 'Silver II', 13: 'Silver III', 14: 'Silver IV', 15: 'Silver V',
+  16: 'Gold I', 17: 'Gold II', 18: 'Gold III', 19: 'Gold IV', 20: 'Gold V',
+  21: 'Platinum I', 22: 'Platinum II', 23: 'Platinum III', 24: 'Platinum IV', 25: 'Platinum V',
+  26: 'Emerald I', 27: 'Emerald II', 28: 'Emerald III', 29: 'Emerald IV', 30: 'Emerald V',
+  31: 'Diamond I', 32: 'Diamond II', 33: 'Diamond III', 34: 'Diamond IV', 35: 'Diamond V',
+  36: 'Diamond I', 37: 'Diamond III', 38: 'Diamond IV', 39: 'Diamond V', 40: 'Ruby I',
+  41: 'Ruby II', 42: 'Ruby III', 43: 'Ruby IV', 44: 'Ruby V', 45: 'Sapphire I',
+  46: 'Sapphire II', 47: 'Sapphire III', 48: 'Sapphire IV', 49: 'Sapphire V', 50: 'Obsidian I',
+};
+
+const tierIcons: Record<string, string> = {
+  Copper: '🟤', Bronze: '🥉', Silver: '⚪', Gold: '🥇', Platinum: '💎',
+  Emerald: '💚', Diamond: '♦️', Ruby: '🔴', Sapphire: '🔵', Obsidian: '⬛',
+};
+
+function getTierIcon(name: string): string {
+  for (const [key, icon] of Object.entries(tierIcons)) {
+    if (name.startsWith(key)) return icon;
+  }
+  return '⭐';
+}
+
+const currentLevel = 37;
+const levels = Array.from({ length: 100 }, (_, i) => {
+  const num = i + 1;
+  const name = tierNames[num] || (num <= 60 ? `Obsidian ${['I','II','III','IV','V'][(num - 50) % 5]}` :
+    num <= 80 ? `Mythic ${['I','II','III','IV','V'][(num - 60) % 5]}` :
+    num <= 95 ? `Legendary ${['I','II','III','IV','V'][(num - 80) % 5]}` :
+    num <= 99 ? `Immortal ${['I','II','III','IV','V'][(num - 95) % 5]}` : 'MAXED');
+  return { num, name, icon: getTierIcon(name), current: num === currentLevel, locked: num > currentLevel };
+});
+---
+<div class="vip-modal-overlay" id="vip-modal">
+  <div class="vip-modal">
+    <button class="vip-modal-close" id="vip-modal-close">[X]</button>
+
+    <!-- Left: Scrollable VIP Levels 1-100 -->
+    <div class="vip-levels-panel">
+      <div class="vip-levels-title">VIP Levels</div>
+      {levels.map(l => (
+        <div class={`vip-level-row ${l.current ? 'current' : ''} ${l.locked ? 'locked' : ''}`}>
+          <span class="vip-level-num">{String(l.num).padStart(2, '0')}</span>
+          <span class="vip-level-icon">{l.icon}</span>
+          <span class="vip-level-name">{l.name}</span>
+          {l.current && <span style="font-family: var(--font-pixel); font-size: 0.35rem; color: var(--color-accent);">◄ YOU</span>}
+          {l.locked && <span style="font-family: var(--font-pixel); font-size: 0.35rem; color: var(--color-text-muted);">🔒</span>}
+        </div>
+      ))}
+    </div>
+
+    <!-- Right: 4 Active Effect Panels -->
+    <div class="vip-effects-panel">
+      <div class="vip-effects-title">Active Effects</div>
+
+      <div class="vip-effect-card effect-rakeback">
+        <div class="effect-header">
+          <span class="effect-label">Rakeback</span>
+          <span class="effect-icon">💸</span>
+        </div>
+        <div class="effect-value">12.5%</div>
+        <div class="effect-desc">Earn back 12.5% of house edge on every wager. Credited instantly to your balance.</div>
+      </div>
+
+      <div class="vip-effect-card effect-cashback">
+        <div class="effect-header">
+          <span class="effect-label">Cashback</span>
+          <span class="effect-icon">🔄</span>
+        </div>
+        <div class="effect-value">7.0%</div>
+        <div class="effect-desc">Weekly cashback on net losses. Resets every Monday 00:00 UTC. No wagering requirement.</div>
+      </div>
+
+      <div class="vip-effect-card effect-spins">
+        <div class="effect-header">
+          <span class="effect-label">Free Spins</span>
+          <span class="effect-icon">🎰</span>
+        </div>
+        <div class="effect-value">45</div>
+        <div class="effect-desc">Free spins available on selected slot games. $0.20 per spin value. Winnings credited as cash.</div>
+      </div>
+
+      <div class="vip-effect-card effect-claim">
+        <div class="effect-header">
+          <span class="effect-label">Available to Claim</span>
+          <span class="effect-icon">🎁</span>
+        </div>
+        <div class="effect-value">$182.40</div>
+        <div class="effect-desc">Accumulated rewards ready to claim. Includes rakeback, cashback, and level-up bonuses.</div>
+        <button class="claim-btn">Claim Now</button>
+      </div>
+    </div>
+  </div>
+</div>

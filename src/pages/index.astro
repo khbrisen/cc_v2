@@ -1,0 +1,141 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Sidebar from '../components/Sidebar.astro';
+import VipBar from '../components/VipBar.astro';
+import VipModal from '../components/VipModal.astro';
+import GamesCarousel from '../components/GamesCarousel.astro';
+import GameGrid from '../components/GameGrid.astro';
+---
+<BaseLayout
+  title="PixelCasino — Retro Crypto Casino"
+  description="Retro-styled crypto casino with VIP rewards, provably fair games, and 8-bit vibes."
+>
+  <div class="app-layout">
+    <Sidebar />
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+      <span class="logo-text">🎰 PixelCasino</span>
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle sidebar">☰</button>
+    </div>
+
+    <div class="main-content">
+      <!-- VIP Progression Bar (top of fold / hero) -->
+      <VipBar />
+
+      <!-- Live Wins Ticker -->
+      <div class="ticker-bar">
+        <div class="ticker-content">
+          <span class="ticker-item">🎉 <span class="win-amount">0.482 BTC</span> won on <span class="win-game">Crypto Crash</span> by Player_x7f</span>
+          <span class="ticker-item">🏆 <span class="win-amount">$12,400</span> jackpot on <span class="win-game">Mega Moolah NES</span></span>
+          <span class="ticker-item">🎰 <span class="win-amount">1.2 ETH</span> won on <span class="win-game">Pixel Mines</span> by CryptoKing99</span>
+          <span class="ticker-item">💎 <span class="win-amount">0.15 BTC</span> won on <span class="win-game">Dragon Tower</span> by anon_4d2</span>
+          <span class="ticker-item">🔥 <span class="win-amount">$8,300</span> on <span class="win-game">Plinko 8-Bit</span> by PixelWhale</span>
+          <span class="ticker-item">⚡ <span class="win-amount">3.5 SOL</span> won on <span class="win-game">Dice Duel</span> by Sol_Maxi</span>
+          <!-- duplicate for seamless loop -->
+          <span class="ticker-item">🎉 <span class="win-amount">0.482 BTC</span> won on <span class="win-game">Crypto Crash</span> by Player_x7f</span>
+          <span class="ticker-item">🏆 <span class="win-amount">$12,400</span> jackpot on <span class="win-game">Mega Moolah NES</span></span>
+          <span class="ticker-item">🎰 <span class="win-amount">1.2 ETH</span> won on <span class="win-game">Pixel Mines</span> by CryptoKing99</span>
+          <span class="ticker-item">💎 <span class="win-amount">0.15 BTC</span> won on <span class="win-game">Dragon Tower</span> by anon_4d2</span>
+          <span class="ticker-item">🔥 <span class="win-amount">$8,300</span> on <span class="win-game">Plinko 8-Bit</span> by PixelWhale</span>
+          <span class="ticker-item">⚡ <span class="win-amount">3.5 SOL</span> won on <span class="win-game">Dice Duel</span> by Sol_Maxi</span>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="quick-stats">
+        <div class="stat-card">
+          <div class="stat-icon">🎮</div>
+          <div class="stat-value">2,847</div>
+          <div class="stat-label">Games</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">👤</div>
+          <div class="stat-value">14.2K</div>
+          <div class="stat-label">Online Now</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💰</div>
+          <div class="stat-value">$2.4M</div>
+          <div class="stat-label">Won Today</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-value">$847K</div>
+          <div class="stat-label">Jackpot</div>
+        </div>
+      </div>
+
+      <!-- Featured Games Carousel -->
+      <GamesCarousel />
+
+      <!-- Promo Banner -->
+      <div class="promo-banner">
+        <div class="promo-text">
+          <h3>Weekend Bonus: 200% Deposit Match</h3>
+          <p>Deposit with BTC, ETH, or SOL and get 200% bonus up to $5,000. Code: PIXEL200</p>
+        </div>
+        <button class="promo-btn">Claim Bonus</button>
+      </div>
+
+      <!-- Slots Grid -->
+      <GameGrid />
+
+      <!-- Footer -->
+      <footer class="site-footer">
+        <p>18+ | Gamble Responsibly | Provably Fair | Crypto Only</p>
+        <p>PixelCasino is a design concept. No real gambling functionality.</p>
+        <div class="footer-links">
+          <a href="#">Terms</a>
+          <a href="#">Privacy</a>
+          <a href="#">Provably Fair</a>
+          <a href="#">Support</a>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- VIP Modal (hidden until click) -->
+  <VipModal />
+
+  <!-- Interactivity Script -->
+  <script is:inline>
+    // VIP Bar → open modal
+    document.getElementById('vip-bar').addEventListener('click', () => {
+      document.getElementById('vip-modal').classList.add('open');
+      // Scroll to current level
+      const currentRow = document.querySelector('.vip-level-row.current');
+      if (currentRow) {
+        setTimeout(() => currentRow.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+      }
+    });
+
+    // Close modal
+    document.getElementById('vip-modal-close').addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.getElementById('vip-modal').classList.remove('open');
+    });
+
+    // Click overlay to close
+    document.getElementById('vip-modal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) {
+        e.currentTarget.classList.remove('open');
+      }
+    });
+
+    // ESC to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.getElementById('vip-modal').classList.remove('open');
+      }
+    });
+
+    // Mobile sidebar toggle
+    const mobileToggle = document.getElementById('mobile-toggle');
+    if (mobileToggle) {
+      mobileToggle.addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('open');
+      });
+    }
+  </script>
+</BaseLayout>
