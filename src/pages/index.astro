@@ -89,6 +89,30 @@ import GameGrid from '../components/GameGrid.astro';
     </div>
   </nav>
 
+  <!-- Claimable Details Modal -->
+  <div class="info-popup-overlay" id="claim-details-overlay">
+    <div class="info-popup claim-details-popup">
+      <button class="info-popup-close" data-close="claim-details-overlay">&times;</button>
+      <h3 class="info-popup-title">Claimable Breakdown</h3>
+      <p class="info-popup-desc">Here's how your claimable balance is calculated:</p>
+      <div class="claim-breakdown">
+        <div class="breakdown-row">
+          <span class="breakdown-label">🔥 Rakeback</span>
+          <span class="breakdown-value breakdown-rakeback">$124.80</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label">💰 Cashback</span>
+          <span class="breakdown-value breakdown-cashback">$57.60</span>
+        </div>
+        <div class="breakdown-divider"></div>
+        <div class="breakdown-row breakdown-total-row">
+          <span class="breakdown-label">Total Claimable</span>
+          <span class="breakdown-value breakdown-total">$182.40</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <VipLevels />
   <SpinWheel />
 
@@ -260,6 +284,13 @@ import GameGrid from '../components/GameGrid.astro';
         currentBalance = 4207.83;
         balanceEl.textContent = '$4,207.83';
       }, 3500);
+    });
+
+    // ── Claim Details Modal ─────────────────────────────────────
+    const claimDetailsBtn = document.getElementById('claim-details-btn');
+    claimDetailsBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openPopup('claim-details-overlay');
     });
 
     // ── Mobile Sidebar ────────────────────────────────────────

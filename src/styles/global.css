@@ -230,6 +230,24 @@ a:hover { color: var(--text); }
 
 @keyframes shine { 0% { left: -40%; } 100% { left: 140%; } }
 
+/* ── Rakeback Boost Banner ────────────────────────────────── */
+.rakeback-boost-banner {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 8px 16px; margin-bottom: 12px;
+  background: linear-gradient(90deg, rgba(255,107,0,0.12), rgba(255,60,0,0.08));
+  border: 1px solid rgba(255,107,0,0.3);
+  border-radius: var(--r-sm);
+  font-family: var(--font-pixel); font-size: 0.6rem;
+  color: #e17055; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; image-rendering: pixelated;
+  animation: boost-pulse 2s ease-in-out infinite;
+}
+
+@keyframes boost-pulse {
+  0%, 100% { border-color: rgba(255,107,0,0.3); }
+  50% { border-color: rgba(255,107,0,0.6); }
+}
+
 /* ── VIP Effects Strip ────────────────────────────────────── */
 .vip-effects-strip {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
@@ -290,6 +308,67 @@ a:hover { color: var(--text); }
   border-radius: 4px; margin-top: 5px; transition: background 0.12s;
 }
 .pill-claim:hover .claim-cta { background: #d35400; }
+
+.pill-boost-tag {
+  font-size: 0.52rem; font-weight: 700; padding: 2px 6px;
+  border-radius: 3px; text-transform: uppercase;
+  background: linear-gradient(135deg, rgba(255,107,0,0.15), rgba(255,60,0,0.1));
+  color: #e17055; border: 1px solid rgba(255,107,0,0.25);
+  animation: boost-pulse 2s ease-in-out infinite;
+}
+
+.pill-claim-actions {
+  display: flex; align-items: center; gap: 6px; margin-top: 5px;
+}
+
+.claim-details-cta {
+  display: inline-block; font-size: 0.68rem; font-weight: 700;
+  color: var(--orange); background: var(--orange-bg);
+  padding: 5px 14px; border-radius: 4px;
+  border: 1px solid rgba(225,112,85,0.25);
+  transition: all 0.12s; cursor: pointer;
+}
+.claim-details-cta:hover { background: rgba(225,112,85,0.15); }
+
+/* ── Claim Breakdown Modal ───────────────────────────────── */
+.claim-details-popup { max-width: 380px; }
+.claim-details-popup .info-popup-desc {
+  font-size: 0.84rem; color: var(--text-secondary); margin-bottom: 4px;
+}
+
+.claim-breakdown {
+  margin-top: 16px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: var(--r-sm);
+  padding: 16px; display: flex; flex-direction: column; gap: 12px;
+}
+
+.breakdown-row {
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.breakdown-label {
+  font-size: 0.88rem; font-weight: 600; color: var(--text-secondary);
+}
+
+.breakdown-value {
+  font-family: var(--font-pixel); font-size: 0.8rem;
+  image-rendering: pixelated;
+}
+
+.breakdown-rakeback { color: var(--green); }
+.breakdown-cashback { color: var(--blue); }
+
+.breakdown-divider {
+  height: 1px; background: var(--border); margin: 2px 0;
+}
+
+.breakdown-total-row .breakdown-label {
+  font-size: 0.92rem; font-weight: 700; color: var(--text);
+}
+
+.breakdown-total {
+  font-size: 0.95rem; color: var(--orange); font-weight: 700;
+}
 
 /* ── VIP Expand Button ────────────────────────────────────── */
 .vip-expand-btn {
