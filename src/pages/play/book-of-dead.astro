@@ -10,6 +10,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <a href="/" class="header-logo">GAS.CC</a>
     </div>
     <div class="header-right">
+      <div class="header-wallet">
+        <span class="header-wallet-label">Balance</span>
+        <span class="header-wallet-amount" id="header-balance">$4,207.83</span>
+      </div>
       <button class="btn-outline">Log In</button>
       <button class="btn-primary">Register</button>
     </div>
@@ -95,18 +99,70 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     const miniClaimValue = document.getElementById('mini-claim-value');
     const miniClaimBtn = document.getElementById('mini-claim-btn');
     const breakdownClaimBtn = document.getElementById('breakdown-claim-btn');
+    const headerBalance = document.getElementById('header-balance');
+    let currentBalance = 4207.83;
+    const claimAmount = 182.40;
 
     function doClaim() {
       if (miniClaimBtn.textContent === 'Claimed!') return;
       closePopup('claim-details-overlay');
+
+      // Flying animation from claimable pill to header wallet
+      const claimPill = document.querySelector('.mini-vip-claimable');
+      const claimRect = claimPill.getBoundingClientRect();
+      const balanceRect = headerBalance.getBoundingClientRect();
+
+      const fly = document.createElement('div');
+      fly.className = 'balance-fly';
+      fly.textContent = '+$182.40';
+      fly.style.left = claimRect.left + claimRect.width / 2 - 30 + 'px';
+      fly.style.top = claimRect.top + 'px';
+      document.body.appendChild(fly);
+
+      const dx = balanceRect.left - claimRect.left;
+      const dy = balanceRect.top - claimRect.top;
+      fly.animate([
+        { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+        { transform: `translate(${dx}px, ${dy}px) scale(0.6)`, opacity: 0.3 }
+      ], { duration: 700, easing: 'ease-in', fill: 'forwards' });
+
+      // Update claim pill
       miniClaimBtn.textContent = 'Claimed!';
       miniClaimBtn.style.background = '#00b894';
       miniClaimValue.textContent = '$0.00';
+
+      // Animate balance counting up
+      setTimeout(() => {
+        fly.remove();
+        headerBalance.classList.add('adding');
+        const target = currentBalance + claimAmount;
+        const start = currentBalance;
+        const duration = 600;
+        const startTime = performance.now();
+
+        function tick(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const val = start + (target - start) * eased;
+          headerBalance.textContent = '$' + val.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+          if (progress < 1) requestAnimationFrame(tick);
+          else {
+            currentBalance = target;
+            setTimeout(() => headerBalance.classList.remove('adding'), 400);
+          }
+        }
+        requestAnimationFrame(tick);
+      }, 650);
+
+      // Reset after 3.5s
       setTimeout(() => {
         miniClaimBtn.textContent = 'Claim';
         miniClaimBtn.style.background = '';
         miniClaimValue.textContent = '$182.40';
-      }, 2500);
+        currentBalance = 4207.83;
+        headerBalance.textContent = '$4,207.83';
+      }, 3500);
     }
 
     miniClaimBtn.addEventListener('click', (e) => { e.stopPropagation(); doClaim(); });

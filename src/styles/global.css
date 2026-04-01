@@ -925,6 +925,23 @@ a:hover { color: var(--text); }
 .game-placeholder p { font-size: 0.85rem; color: #888; margin-top: 8px; }
 
 /* VIP section reused at bottom of game page */
+/* ── Header Wallet ────────────────────────────────────────── */
+.header-wallet {
+  display: flex; flex-direction: column; align-items: flex-end;
+  padding: 4px 12px; border: 1px solid var(--border);
+  border-radius: var(--r-xs); background: var(--bg);
+  margin-right: 4px;
+}
+.header-wallet-label {
+  font-size: 0.5rem; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.header-wallet-amount {
+  font-family: var(--font-pixel); font-size: 0.62rem;
+  color: var(--green); image-rendering: pixelated; font-weight: 700;
+}
+.header-wallet-amount.adding { color: var(--green); }
+
 /* ── Mini VIP Strip (Game Page) ───────────────────────────── */
 .game-mini-vip {
   display: flex; align-items: stretch; gap: 10px;
