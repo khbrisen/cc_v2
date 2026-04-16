@@ -165,7 +165,7 @@ import GameGrid from '../components/GameGrid.astro';
   <script is:inline>
     // ── 3D Level Shapes (Three.js) ────────────────────────────
     (function() {
-      function createScene(canvas, geometryFn) {
+      function createScene(canvas, geometryFn, color) {
         const size = 36;
         const dpr = window.devicePixelRatio || 1;
         canvas.width = size * dpr;
@@ -179,42 +179,53 @@ import GameGrid from '../components/GameGrid.astro';
         const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
         camera.position.z = 3.2;
 
-        const geometry = geometryFn();
-        const edges = new THREE.EdgesGeometry(geometry);
-        const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 });
-        const wireframe = new THREE.LineSegments(edges, lineMat);
-        scene.add(wireframe);
+        // Lighting for solid shading
+        const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambient);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        dirLight.position.set(2, 3, 4);
+        scene.add(dirLight);
 
-        // Faint fill
-        const fillMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.04, side: THREE.DoubleSide });
+        const geometry = geometryFn();
+
+        // Solid fill with lighting
+        const fillMat = new THREE.MeshStandardMaterial({
+          color: color,
+          roughness: 0.3,
+          metalness: 0.1,
+          side: THREE.DoubleSide
+        });
         const mesh = new THREE.Mesh(geometry, fillMat);
         scene.add(mesh);
 
-        return { renderer, scene, camera, wireframe, mesh };
+        // Subtle edge lines in the same color but brighter
+        const edges = new THREE.EdgesGeometry(geometry);
+        const lineMat = new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0.5 });
+        const wireframe = new THREE.LineSegments(edges, lineMat);
+        scene.add(wireframe);
+
+        return { renderer, scene, camera, mesh, wireframe };
       }
 
-      // Cube
       const cubeCanvas = document.getElementById('cube-canvas');
       if (cubeCanvas && typeof THREE !== 'undefined') {
-        const cube = createScene(cubeCanvas, () => new THREE.BoxGeometry(1, 1, 1));
+        // Neon green cube
+        const cube = createScene(cubeCanvas, () => new THREE.BoxGeometry(1, 1, 1), 0x39ff14);
 
-        // Pyramid
+        // Banana yellow pyramid
         const pyramidCanvas = document.getElementById('pyramid-canvas');
-        const pyramid = createScene(pyramidCanvas, () => new THREE.ConeGeometry(0.7, 1.1, 4));
+        const pyramid = createScene(pyramidCanvas, () => new THREE.ConeGeometry(0.7, 1.1, 4), 0xffe135);
 
         function animate() {
           requestAnimationFrame(animate);
 
-          cube.wireframe.rotation.x += 0.008;
-          cube.wireframe.rotation.y += 0.012;
-          cube.mesh.rotation.x = cube.wireframe.rotation.x;
-          cube.mesh.rotation.y = cube.wireframe.rotation.y;
+          // Horizontal rotation only (Y axis)
+          cube.mesh.rotation.y += 0.015;
+          cube.wireframe.rotation.y = cube.mesh.rotation.y;
           cube.renderer.render(cube.scene, cube.camera);
 
-          pyramid.wireframe.rotation.x += 0.006;
-          pyramid.wireframe.rotation.y -= 0.01;
-          pyramid.mesh.rotation.x = pyramid.wireframe.rotation.x;
-          pyramid.mesh.rotation.y = pyramid.wireframe.rotation.y;
+          pyramid.mesh.rotation.y -= 0.015;
+          pyramid.wireframe.rotation.y = pyramid.mesh.rotation.y;
           pyramid.renderer.render(pyramid.scene, pyramid.camera);
         }
         animate();
