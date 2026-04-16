@@ -288,51 +288,68 @@ a:hover { color: #fff; }
   transform: translateX(calc(var(--sidebar-w) * -0.5));
 }
 
-/* Level columns + water tank row */
+/* Water tank + levels layout */
 .vip-bar-main {
-  display: flex; align-items: center; justify-content: center; gap: 32px; margin-bottom: 40px;
+  display: flex; align-items: center; justify-content: center; margin-bottom: 36px;
 }
 
-.vip-level-col {
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-  flex-shrink: 0;
+.water-tank-wrap {
+  display: flex; flex-direction: column; align-items: center;
 }
 
-.level-shape {
-  width: 36px; height: 36px;
-  display: block;
+/* Level labels above and below the tank */
+.tank-level-label {
+  overflow: hidden;
+  height: 24px;
+  position: relative;
 }
 
-.vip-level-left,
-.vip-level-right {
+.tank-level-num {
   font-family: 'Space Mono', monospace;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  color: rgba(255,255,255,0.55);
-  white-space: nowrap;
+  color: rgba(255,255,255,0.5);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s;
 }
 
-/* Water tank container */
-.water-tank-wrap {
-  flex: 1;
-  display: flex; flex-direction: column; align-items: center;
-  max-width: 160px;
+.tank-level-top { margin-bottom: 8px; }
+.tank-level-bottom { margin-top: 8px; }
+
+/* Tank canvas */
+.tank-container {
+  position: relative;
 }
 
 #water-canvas {
-  width: 120px; height: 160px;
+  width: 120px; height: 180px;
   border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 12px;
+  border-radius: 14px;
   display: block;
 }
 
-.water-tank-label {
+.water-tank-xp-label {
   text-align: center;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: rgba(255,255,255,0.3);
   margin-top: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Level shift animations */
+.tank-level-num.shift-out-bottom {
+  transform: translateY(30px);
+  opacity: 0;
+}
+.tank-level-num.shift-in-top {
+  transform: translateY(-30px);
+  opacity: 0;
+}
+.tank-level-num.shift-enter {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 /* ── VIP effect pills — no borders, no boxes, pure typography ── */
@@ -948,6 +965,20 @@ a:hover { color: #fff; }
   .vip-path { padding-left: 50px; padding-right: 50px; }
   .game-card { flex: 0 0 130px; }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   ADD XP BUTTON
+   ══════════════════════════════════════════════════════════════ */
+.btn-add-xp {
+  padding: 6px 14px; border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--r-xs); background: transparent;
+  color: #fff; font-family: var(--font); font-size: 0.72rem;
+  font-weight: 700; cursor: pointer; transition: all 0.15s;
+}
+.btn-add-xp:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); }
+.btn-add-xp:active { transform: scale(0.95); }
+.theme-banana .btn-add-xp { border-color: rgba(255,225,53,0.25); color: #ffe135; }
+.theme-banana .btn-add-xp:hover { border-color: #ffe135; background: rgba(255,225,53,0.08); }
 
 /* ══════════════════════════════════════════════════════════════
    THEME TOGGLE BUTTON

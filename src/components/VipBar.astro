@@ -2,19 +2,17 @@
 ---
 <div class="vip-section">
   <div class="vip-bar-main">
-    <div class="vip-level-col">
-      <canvas id="cube-canvas" class="level-shape" width="36" height="36"></canvas>
-      <span class="vip-level-left">Level 36</span>
-    </div>
-
     <div class="water-tank-wrap">
-      <canvas id="water-canvas"></canvas>
-      <div class="water-tank-label">6,720 / 10,000 XP</div>
-    </div>
-
-    <div class="vip-level-col">
-      <canvas id="pyramid-canvas" class="level-shape" width="36" height="36"></canvas>
-      <span class="vip-level-right">Level 37</span>
+      <div class="tank-level-label tank-level-top" id="tank-level-top">
+        <span class="tank-level-num" id="level-next">37</span>
+      </div>
+      <div class="tank-container">
+        <canvas id="water-canvas"></canvas>
+      </div>
+      <div class="tank-level-label tank-level-bottom" id="tank-level-bottom">
+        <span class="tank-level-num" id="level-current">36</span>
+      </div>
+      <div class="water-tank-xp-label" id="xp-label">6,720 / 10,000 XP</div>
     </div>
   </div>
 
