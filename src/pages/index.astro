@@ -190,6 +190,24 @@ import GameGrid from '../components/GameGrid.astro';
         }
       `;
 
+      // Create text texture for "CCC" letters
+      const textCanvas = document.createElement('canvas');
+      textCanvas.width = 128;
+      textCanvas.height = 192;
+      const tCtx = textCanvas.getContext('2d');
+      tCtx.clearRect(0, 0, 128, 192);
+      tCtx.fillStyle = '#fff';
+      tCtx.font = '900 52px Inter, sans-serif';
+      tCtx.textAlign = 'center';
+      tCtx.textBaseline = 'middle';
+      tCtx.fillText('C', 64, 40);
+      tCtx.fillText('C', 64, 96);
+      tCtx.fillText('C', 64, 152);
+
+      const textTexture = new THREE.CanvasTexture(textCanvas);
+      textTexture.minFilter = THREE.LinearFilter;
+      textTexture.magFilter = THREE.LinearFilter;
+
       const fragmentShader = `
         precision highp float;
         varying vec2 vUv;
@@ -197,12 +215,12 @@ import GameGrid from '../components/GameGrid.astro';
         uniform float uFill;
         uniform float uDraining;
         uniform float uBanana;
+        uniform sampler2D uTextMap;
 
         void main() {
           float fill = uFill;
           if (fill <= 0.001) { gl_FragColor = vec4(0.0); return; }
 
-          // Wave amplitude — bigger when draining for turbulence
           float waveAmp = mix(1.0, 2.5, uDraining);
 
           float surfaceY = fill;
@@ -214,7 +232,13 @@ import GameGrid from '../components/GameGrid.astro';
           if (vUv.y < waterLine) {
             vec3 waterColor = mix(vec3(1.0), vec3(1.0, 0.882, 0.208), uBanana);
 
-            gl_FragColor = vec4(waterColor, 1.0);
+            // Sample text texture (flip Y since canvas is top-down)
+            vec2 texUv = vec2(vUv.x, 1.0 - vUv.y);
+            float textAlpha = texture2D(uTextMap, texUv).r;
+
+            // Where there's a letter, draw black; otherwise draw water color
+            vec3 col = mix(waterColor, vec3(0.0), textAlpha);
+            gl_FragColor = vec4(col, 1.0);
           } else {
             gl_FragColor = vec4(0.0);
           }
@@ -228,6 +252,7 @@ import GameGrid from '../components/GameGrid.astro';
           uFill: { value: 0.672 },
           uDraining: { value: 0.0 },
           uBanana: { value: 0.0 },
+          uTextMap: { value: textTexture },
         },
         transparent: true,
       });
