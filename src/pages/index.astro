@@ -253,30 +253,49 @@ import GameGrid from '../components/GameGrid.astro';
       const plane = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
       scene.add(plane);
 
-      // ── XP State ────────────────────────────────────
+      // ── XP & Perk State ────────────────────────────────
       let currentLevel = 36;
       let totalXp = 6720;
-      let levelFloor = 0;       // XP at start of current level
-      let levelCeil = 10000;    // XP needed to reach next level
-      const xpPerLevel = 10000; // Each level requires 10k more
+      let levelFloor = 0;
+      let levelCeil = 10000;
+      const xpPerLevel = 10000;
       let targetFill = (totalXp - levelFloor) / (levelCeil - levelFloor);
       let currentFill = targetFill;
       let draining = false;
       let levelingUp = false;
 
-      // Minimum visible water (same as +200 XP worth)
       const minFill = 200 / xpPerLevel;
+
+      // Perk values
+      let rakeback = 3.0;     // starts at 3%, +1% per level
+      let cashback = 7.0;     // +0.5% per level
+      let freeSpins = 45;     // +10 per level
 
       const xpLabel = document.getElementById('xp-label');
       const levelCurrent = document.getElementById('level-current');
       const levelNext = document.getElementById('level-next');
       const addXpBtn = document.getElementById('add-xp-btn');
+      const rakebackEl = document.getElementById('rakeback-value');
+      const cashbackEl = document.getElementById('cashback-value');
+      const spinsEl = document.getElementById('spins-value');
 
       function updateLabel() {
         xpLabel.textContent = totalXp.toLocaleString() + ' / ' + levelCeil.toLocaleString() + ' XP';
       }
 
-      // Digit-roll animation for the denominator
+      // Generic number roll animation
+      function rollNumber(el, from, to, duration, formatter) {
+        const startTime = performance.now();
+        function tick(now) {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const val = from + (to - from) * eased;
+          el.textContent = formatter(val);
+          if (progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+
       function rollDenominator(from, to, duration) {
         const startTime = performance.now();
         function tick(now) {
@@ -297,7 +316,6 @@ import GameGrid from '../components/GameGrid.astro';
         const curNum = levelCurrent;
         const nextNum = levelNext;
 
-        // Immediately: slide out level labels + roll denominator
         curNum.classList.add('shift-out-bottom');
         nextNum.classList.add('shift-out-bottom');
 
@@ -306,8 +324,20 @@ import GameGrid from '../components/GameGrid.astro';
         levelFloor = levelCeil;
         levelCeil = levelFloor + xpPerLevel;
 
-        // Roll denominator while draining
+        // Roll denominator
         rollDenominator(oldCeil, levelCeil, 1200);
+
+        // Roll perk values simultaneously
+        const oldRakeback = rakeback;
+        const oldCashback = cashback;
+        const oldSpins = freeSpins;
+        rakeback += 1.0;
+        cashback += 0.5;
+        freeSpins += 10;
+
+        rollNumber(rakebackEl, oldRakeback, rakeback, 1000, v => v.toFixed(1) + '%');
+        rollNumber(cashbackEl, oldCashback, cashback, 1000, v => v.toFixed(1) + '%');
+        rollNumber(spinsEl, oldSpins, freeSpins, 1000, v => Math.round(v).toString());
 
         // After labels slide out, swap and slide new ones in
         setTimeout(() => {
@@ -333,7 +363,6 @@ import GameGrid from '../components/GameGrid.astro';
 
       function onDrainComplete() {
         draining = false;
-        // Start new level with base water visible
         currentFill = 0;
         targetFill = minFill;
         updateLabel();
