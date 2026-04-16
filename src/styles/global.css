@@ -963,6 +963,120 @@ a:hover { color: #fff; }
 }
 
 /* ══════════════════════════════════════════════════════════════
+   THEME TOGGLE BUTTON
+   ══════════════════════════════════════════════════════════════ */
+.btn-theme-toggle {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 1px solid var(--border-strong); background: transparent;
+  color: #fff; font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  line-height: 1;
+}
+.btn-theme-toggle:hover { border-color: #fff; }
+
+.theme-banana .btn-theme-toggle {
+  border-color: rgba(255,225,53,0.4);
+  color: #ffe135;
+}
+.theme-banana .btn-theme-toggle:hover { border-color: #ffe135; }
+
+/* ══════════════════════════════════════════════════════════════
+   BANANA YELLOW THEME OVERRIDE
+   ══════════════════════════════════════════════════════════════ */
+.theme-banana {
+  --accent-w: #ffe135;
+}
+
+/* Text & headings */
+.theme-banana .header-logo,
+.theme-banana .header-nav a.active,
+.theme-banana .header-nav a:hover,
+.theme-banana .sidebar-link.active,
+.theme-banana .sidebar-link:hover,
+.theme-banana .mob-nav-item.active,
+.theme-banana .mob-nav-item:hover,
+.theme-banana .section-header h3,
+.theme-banana .game-card-body h4,
+.theme-banana .vip-panel-header h2,
+.theme-banana .info-popup h3,
+.theme-banana .spin-modal h3,
+.theme-banana .spin-result,
+.theme-banana .balance-amount,
+.theme-banana .pill-value,
+.theme-banana .vp-node.current .vp-card-name,
+.theme-banana .perk-card .perk-value,
+.theme-banana .breakdown-value,
+.theme-banana .breakdown-total,
+.theme-banana .breakdown-total-row .breakdown-label,
+.theme-banana .rate-breakdown-value,
+.theme-banana .rate-breakdown-total .rate-breakdown-value,
+.theme-banana .rate-breakdown-total .rate-breakdown-label,
+.theme-banana .booster-percent,
+.theme-banana .info-popup-highlight strong,
+.theme-banana .ticker-item .win-amount,
+.theme-banana .header-wallet-amount,
+.theme-banana .mini-vip-value { color: #ffe135; }
+
+/* Level labels */
+.theme-banana .vip-level-left,
+.theme-banana .vip-level-right { color: rgba(255,225,53,0.55); }
+
+/* Progress bar */
+.theme-banana .vip-progress { box-shadow: 0 0 12px 2px rgba(255,225,53,0.15), 0 0 30px 4px rgba(255,225,53,0.06); }
+.theme-banana .vip-progress-fill { background: #ffe135; }
+
+/* Stars */
+.theme-banana .page-stars-layer-1 { filter: sepia(1) saturate(3) hue-rotate(10deg) brightness(1.1); }
+.theme-banana .page-stars-layer-2 { filter: sepia(1) saturate(3) hue-rotate(10deg) brightness(1); }
+.theme-banana .page-stars-layer-3 { filter: sepia(1) saturate(2) hue-rotate(10deg) brightness(0.9); }
+
+/* Pill labels — yellow bg with black text */
+.theme-banana .pill-label { background: #ffe135; color: #000; }
+.theme-banana .perk-card .perk-label { background: #ffe135; color: #000; }
+
+/* VIP expand button */
+.theme-banana .vip-expand-btn { background: #ffe135; color: #000; }
+.theme-banana .vip-expand-btn:hover { background: rgba(255,225,53,0.85); }
+
+/* Primary buttons */
+.theme-banana .btn-primary { background: #ffe135; color: #000; }
+.theme-banana .btn-primary:hover { background: #ffd700; }
+.theme-banana .claim-cta { background: #ffe135; color: #000; }
+.theme-banana .breakdown-claim-btn { background: #ffe135; color: #000; }
+.theme-banana .breakdown-claim-btn:hover { background: #ffd700; }
+.theme-banana .booster-activate-btn { background: #ffe135; color: #000; }
+.theme-banana .booster-activate-btn:hover { background: #ffd700; }
+.theme-banana .booster-popular-tag { background: #ffe135; color: #000; }
+.theme-banana .spin-btn { background: #ffe135; color: #000; }
+.theme-banana .spin-btn:hover { background: #ffd700; }
+.theme-banana .mini-claim-btn { background: #ffe135; color: #000; }
+
+/* Outline buttons */
+.theme-banana .btn-outline:hover { border-color: #ffe135; color: #ffe135; }
+
+/* Active tab */
+.theme-banana .cat-tab.active { background: #ffe135; color: #000; border-color: #ffe135; }
+
+/* Game tags */
+.theme-banana .game-tag.hot { background: #ffe135; color: #000; }
+
+/* Spin pointer */
+.theme-banana .spin-pointer { border-top-color: #ffe135; }
+
+/* VIP progression dots */
+.theme-banana .vp-node.current .vp-dot { border-color: #ffe135; background: #ffe135; }
+.theme-banana .vp-node.current .vp-dot-num { color: #000; }
+.theme-banana .vp-node.done .vp-dot { border-color: rgba(255,225,53,0.35); }
+
+/* Footer links */
+.theme-banana .footer-links a:hover { color: #ffe135; }
+
+/* Border accents on hover */
+.theme-banana .game-card:hover { border-color: rgba(255,225,53,0.2); }
+.theme-banana .info-btn:hover { color: #ffe135; border-color: rgba(255,225,53,0.3); }
+
+/* ══════════════════════════════════════════════════════════════
    GAME PAGE
    ══════════════════════════════════════════════════════════════ */
 .game-page { display: flex; flex-direction: column; min-height: calc(100vh - var(--header-h)); }

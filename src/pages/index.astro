@@ -25,6 +25,7 @@ import GameGrid from '../components/GameGrid.astro';
     </div>
     <div class="header-right">
       <button class="btn-rakeback-boost">🔥 Rakeback Boost <span class="boost-timer header-boost-timer"></span></button>
+      <button class="btn-theme-toggle" id="theme-toggle" title="Toggle accent color">◐</button>
       <button class="btn-outline">Log In</button>
       <button class="btn-primary">Register</button>
     </div>
@@ -473,6 +474,12 @@ import GameGrid from '../components/GameGrid.astro';
         closeVip(); closeSpin();
         document.querySelectorAll('.info-popup-overlay.open').forEach(o => o.classList.remove('open'));
       }
+    });
+
+    // ── Theme Toggle (White ↔ Banana Yellow) ──────────────────
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      document.documentElement.classList.toggle('theme-banana');
     });
   </script>
 </BaseLayout>
