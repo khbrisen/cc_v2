@@ -34,7 +34,19 @@ import GameGrid from '../components/GameGrid.astro';
     <Sidebar />
 
     <div class="main-content">
-      <VipBar />
+
+      <!-- HERO: Night Sky + Shooting Stars + VIP Bar -->
+      <div class="hero-night-sky">
+        <div class="hero-stars"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <div class="shooting-star"></div>
+        <canvas id="stars-canvas"></canvas>
+        <VipBar />
+      </div>
 
       <div class="ticker-bar">
         <div class="ticker-content">
@@ -152,6 +164,121 @@ import GameGrid from '../components/GameGrid.astro';
   <SpinWheel />
 
   <script is:inline>
+    // ── 3D Shooting Stars Canvas ─────────────────────────────
+    (function() {
+      const canvas = document.getElementById('stars-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const hero = canvas.parentElement;
+
+      function resize() {
+        canvas.width = hero.offsetWidth;
+        canvas.height = hero.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      canvas.style.cssText = 'position:absolute;inset:0;z-index:1;pointer-events:none;';
+
+      // Particle stars (subtle depth layers)
+      const bgStars = [];
+      for (let i = 0; i < 80; i++) {
+        bgStars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          z: Math.random() * 3 + 0.5,
+          brightness: Math.random() * 0.5 + 0.3,
+          twinkleSpeed: Math.random() * 0.02 + 0.005,
+          twinkleOffset: Math.random() * Math.PI * 2,
+        });
+      }
+
+      // 3D shooting stars
+      const shootingStars = [];
+      function spawnShootingStar() {
+        const fromRight = Math.random() > 0.5;
+        shootingStars.push({
+          x: fromRight ? canvas.width + 50 : -50,
+          y: Math.random() * canvas.height * 0.6,
+          z: Math.random() * 2 + 1,
+          vx: (fromRight ? -1 : 1) * (Math.random() * 6 + 4),
+          vy: Math.random() * 2 + 0.5,
+          life: 1,
+          decay: Math.random() * 0.008 + 0.005,
+          length: Math.random() * 80 + 40,
+          thickness: Math.random() * 1.5 + 0.5,
+        });
+      }
+
+      let lastSpawn = 0;
+      function animate(t) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw background depth stars
+        for (const s of bgStars) {
+          const twinkle = Math.sin(t * s.twinkleSpeed + s.twinkleOffset) * 0.3 + 0.7;
+          const size = s.z * 0.6;
+          const alpha = s.brightness * twinkle;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+          ctx.fill();
+        }
+
+        // Spawn new shooting stars periodically
+        if (t - lastSpawn > 800 + Math.random() * 2000) {
+          spawnShootingStar();
+          lastSpawn = t;
+        }
+
+        // Draw shooting stars with 3D depth
+        for (let i = shootingStars.length - 1; i >= 0; i--) {
+          const s = shootingStars[i];
+          s.x += s.vx * s.z * 0.6;
+          s.y += s.vy * s.z * 0.3;
+          s.life -= s.decay;
+
+          if (s.life <= 0) { shootingStars.splice(i, 1); continue; }
+
+          const tailX = s.x - s.vx * s.length * 0.15;
+          const tailY = s.y - s.vy * s.length * 0.15;
+
+          // Glow
+          const grad = ctx.createLinearGradient(tailX, tailY, s.x, s.y);
+          grad.addColorStop(0, `rgba(255,255,255,0)`);
+          grad.addColorStop(0.7, `rgba(255,255,255,${s.life * 0.4})`);
+          grad.addColorStop(1, `rgba(255,255,255,${s.life * 0.9})`);
+
+          ctx.beginPath();
+          ctx.moveTo(tailX, tailY);
+          ctx.lineTo(s.x, s.y);
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = s.thickness * s.z;
+          ctx.lineCap = 'round';
+          ctx.stroke();
+
+          // Head glow
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.thickness * s.z * 1.5, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255,255,255,${s.life * 0.7})`;
+          ctx.fill();
+
+          // Outer glow
+          const glowSize = s.thickness * s.z * 4;
+          const glow = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, glowSize);
+          glow.addColorStop(0, `rgba(255,255,255,${s.life * 0.2})`);
+          glow.addColorStop(1, 'rgba(255,255,255,0)');
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, glowSize, 0, Math.PI * 2);
+          ctx.fillStyle = glow;
+          ctx.fill();
+        }
+
+        requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+    })();
+
     // ── Boost Countdown Timer ─────────────────────────────────
     let boostEnd = Date.now() + (2 * 3600 + 47 * 60 + 33) * 1000;
     const timerEls = document.querySelectorAll('.boost-timer');
@@ -186,23 +313,21 @@ import GameGrid from '../components/GameGrid.astro';
         const boostPct = parseInt(card.dataset.boost);
         const hours = parseInt(card.dataset.hours);
 
-        // Reset timer
         boostEnd = Date.now() + hours * 3600 * 1000;
         updateBoostTimers();
 
-        // Update pill boost tag and value
         boostTag.textContent = '🔥 +' + boostPct + '%';
         rakebackValue.textContent = (10.5 + boostPct).toFixed(1) + '%';
 
-        // Flash the activated card
         btn.textContent = 'Activated!';
-        btn.style.background = '#00b894';
+        btn.style.background = '#fff';
+        btn.style.color = '#000';
 
-        // Close popup after short delay
         setTimeout(() => {
           closePopup('booster-overlay');
           btn.textContent = 'Activate';
           btn.style.background = '';
+          btn.style.color = '';
         }, 800);
       });
     });
@@ -254,38 +379,38 @@ import GameGrid from '../components/GameGrid.astro';
     const spinBtn = document.getElementById('spin-btn');
     const spinResult = document.getElementById('spin-result');
     const spinWheel = document.getElementById('spin-wheel');
-    const canvas = document.getElementById('spin-canvas');
+    const spinCanvas = document.getElementById('spin-canvas');
 
     const prizes = [
-      { label: '$5', color: '#6c5ce7' },
-      { label: '$10', color: '#f0f0f2' },
-      { label: '$25', color: '#a29bfe' },
-      { label: '$50', color: '#f0f0f2' },
-      { label: '10 FS', color: '#0984e3' },
-      { label: '$100', color: '#f0f0f2' },
-      { label: '25 FS', color: '#00b894' },
-      { label: '$250', color: '#f0f0f2' },
+      { label: '$5', color: '#1a1a1a' },
+      { label: '$10', color: '#0d0d0d' },
+      { label: '$25', color: '#1a1a1a' },
+      { label: '$50', color: '#0d0d0d' },
+      { label: '10 FS', color: '#1a1a1a' },
+      { label: '$100', color: '#0d0d0d' },
+      { label: '25 FS', color: '#1a1a1a' },
+      { label: '$250', color: '#0d0d0d' },
     ];
 
     let currentAngle = 0, spinning = false;
 
     function drawWheel() {
-      const ctx = canvas.getContext('2d');
+      const ctx = spinCanvas.getContext('2d');
       const cx = 130, cy = 130, r = 126, sliceAngle = (2 * Math.PI) / prizes.length;
       ctx.clearRect(0, 0, 260, 260);
       prizes.forEach((p, i) => {
         const s = i * sliceAngle, e = s + sliceAngle;
         ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, r, s, e); ctx.closePath();
         ctx.fillStyle = p.color; ctx.fill();
-        ctx.strokeStyle = '#e8e8ea'; ctx.lineWidth = 1; ctx.stroke();
+        ctx.strokeStyle = 'rgba(255,255,255,0.08)'; ctx.lineWidth = 1; ctx.stroke();
         ctx.save(); ctx.translate(cx, cy); ctx.rotate(s + sliceAngle / 2);
         ctx.textAlign = 'right';
-        ctx.fillStyle = p.color === '#f0f0f2' ? '#1a1a1a' : '#fff';
+        ctx.fillStyle = '#ffffff';
         ctx.font = '700 11px Inter, sans-serif';
         ctx.fillText(p.label, r - 12, 4); ctx.restore();
       });
       ctx.beginPath(); ctx.arc(cx, cy, 16, 0, 2 * Math.PI);
-      ctx.fillStyle = '#6c5ce7'; ctx.fill();
+      ctx.fillStyle = '#ffffff'; ctx.fill();
     }
     drawWheel();
 
@@ -317,14 +442,11 @@ import GameGrid from '../components/GameGrid.astro';
     function doClaim() {
       if (claimCta.textContent === 'Claimed!') return;
 
-      // Close details modal if open
       closePopup('claim-details-overlay');
 
-      // Get positions for animation
       const claimRect = claimTrigger.getBoundingClientRect();
       const balanceRect = balanceEl.getBoundingClientRect();
 
-      // Create flying element
       const fly = document.createElement('div');
       fly.className = 'balance-fly';
       fly.textContent = '+$182.40';
@@ -332,7 +454,6 @@ import GameGrid from '../components/GameGrid.astro';
       fly.style.top = claimRect.top + 'px';
       document.body.appendChild(fly);
 
-      // Animate to wallet position
       const dx = balanceRect.left - claimRect.left;
       const dy = balanceRect.top - claimRect.top;
       fly.animate([
@@ -340,12 +461,11 @@ import GameGrid from '../components/GameGrid.astro';
         { transform: `translate(${dx}px, ${dy}px) scale(0.6)`, opacity: 0.3 }
       ], { duration: 700, easing: 'ease-in', fill: 'forwards' });
 
-      // Update claim pill
       claimCta.textContent = 'Claimed!';
-      claimCta.style.background = '#00b894';
+      claimCta.style.background = '#fff';
+      claimCta.style.color = '#000';
       claimValue.textContent = '$0.00';
 
-      // Animate balance counting up
       setTimeout(() => {
         fly.remove();
         balanceEl.classList.add('adding');
@@ -369,10 +489,10 @@ import GameGrid from '../components/GameGrid.astro';
         requestAnimationFrame(tick);
       }, 650);
 
-      // Reset after 3s
       setTimeout(() => {
         claimCta.textContent = 'Claim';
         claimCta.style.background = '';
+        claimCta.style.color = '';
         claimValue.textContent = '$182.40';
         currentBalance = 4207.83;
         balanceEl.textContent = '$4,207.83';
