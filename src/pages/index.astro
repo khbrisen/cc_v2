@@ -197,12 +197,12 @@ import GameGrid from '../components/GameGrid.astro';
       const tCtx = textCanvas.getContext('2d');
       tCtx.clearRect(0, 0, 128, 192);
       tCtx.fillStyle = '#fff';
-      tCtx.font = '900 105px Inter, sans-serif';
+      tCtx.font = '600 82px Inter, sans-serif';
       tCtx.textAlign = 'center';
       tCtx.textBaseline = 'middle';
 
       // Draw each C rotated +90° (opening faces up)
-      const positions = [36, 96, 156];
+      const positions = [38, 96, 154];
       positions.forEach(y => {
         tCtx.save();
         tCtx.translate(64, y);
