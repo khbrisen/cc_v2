@@ -288,9 +288,9 @@ a:hover { color: #fff; }
   transform: translateX(calc(var(--sidebar-w) * -0.5));
 }
 
-/* Progress row: Level N — bar — Level N+1 */
+/* Level columns + water tank row */
 .vip-bar-main {
-  display: flex; align-items: center; gap: 20px; margin-bottom: 48px;
+  display: flex; align-items: center; justify-content: center; gap: 32px; margin-bottom: 40px;
 }
 
 .vip-level-col {
@@ -314,34 +314,21 @@ a:hover { color: #fff; }
   letter-spacing: 0.08em;
 }
 
-.vip-progress-wrap { flex: 1; position: relative; }
-
-.vip-progress {
-  width: 100%; height: 4px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 2px;
-  overflow: visible;
-  position: relative;
-  box-shadow: 0 0 12px 2px rgba(255,215,0,0.12), 0 0 30px 4px rgba(255,215,0,0.05);
+/* Water tank container */
+.water-tank-wrap {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center;
+  max-width: 160px;
 }
 
-.vip-progress-fill {
-  height: 100%;
-  background: #fff;
-  border-radius: 2px;
-  position: relative;
-  overflow: hidden;
+#water-canvas {
+  width: 120px; height: 160px;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  display: block;
 }
 
-.vip-progress-shine {
-  position: absolute; top: 0; left: -40%; width: 40%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
-  animation: shine 4s ease-in-out infinite;
-}
-
-@keyframes shine { 0% { left: -40%; } 100% { left: 140%; } }
-
-.vip-xp-label {
+.water-tank-label {
   text-align: center;
   font-size: 0.7rem;
   color: rgba(255,255,255,0.3);
@@ -1023,8 +1010,7 @@ a:hover { color: #fff; }
 .theme-banana .vip-level-right { color: rgba(255,225,53,0.55); }
 
 /* Progress bar */
-.theme-banana .vip-progress { box-shadow: 0 0 12px 2px rgba(255,225,53,0.15), 0 0 30px 4px rgba(255,225,53,0.06); }
-.theme-banana .vip-progress-fill { background: #ffe135; }
+.theme-banana #water-canvas { border-color: rgba(255,225,53,0.15); }
 
 /* Stars */
 .theme-banana .page-stars-layer-1 { filter: sepia(1) saturate(3) hue-rotate(10deg) brightness(1.1); }

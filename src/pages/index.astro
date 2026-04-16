@@ -233,6 +233,108 @@ import GameGrid from '../components/GameGrid.astro';
       }
     })();
 
+    // ── Water XP Tank (GLSL shader) ──────────────────────────
+    (function() {
+      const canvas = document.getElementById('water-canvas');
+      if (!canvas || typeof THREE === 'undefined') return;
+
+      const W = 120, H = 160;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setSize(W, H);
+      renderer.setPixelRatio(dpr);
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+      const vertexShader = `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = vec4(position, 1.0);
+        }
+      `;
+
+      const fragmentShader = `
+        precision highp float;
+        varying vec2 vUv;
+        uniform float uTime;
+        uniform float uFill;
+        uniform float uBanana;
+
+        void main() {
+          float fill = uFill;
+
+          // Wave at the surface
+          float surfaceY = fill;
+          float wave1 = sin(vUv.x * 12.0 + uTime * 2.5) * 0.015;
+          float wave2 = sin(vUv.x * 18.0 - uTime * 3.2) * 0.008;
+          float wave3 = sin(vUv.x * 7.0 + uTime * 1.8) * 0.012;
+          float waterLine = surfaceY + wave1 + wave2 + wave3;
+
+          // Below water
+          if (vUv.y < waterLine) {
+            // Depth gradient — darker at bottom, lighter near surface
+            float depth = (waterLine - vUv.y) / fill;
+            float depthFade = 1.0 - depth * 0.5;
+
+            // Subtle caustic-like pattern
+            float caustic1 = sin(vUv.x * 20.0 + vUv.y * 15.0 + uTime * 1.5) * 0.5 + 0.5;
+            float caustic2 = sin(vUv.x * 14.0 - vUv.y * 18.0 + uTime * 2.0) * 0.5 + 0.5;
+            float caustics = caustic1 * caustic2 * 0.15 * depthFade;
+
+            // White theme water
+            float baseAlpha = 0.12 + depth * 0.08;
+            vec3 waterColor = mix(
+              vec3(1.0, 1.0, 1.0),
+              vec3(1.0, 0.882, 0.208),
+              uBanana
+            );
+            vec3 col = waterColor * (depthFade * 0.8 + caustics);
+            float alpha = baseAlpha + caustics * 0.5;
+
+            // Brighter near surface
+            float surfDist = abs(vUv.y - waterLine);
+            if (surfDist < 0.025) {
+              float surfGlow = 1.0 - surfDist / 0.025;
+              alpha += surfGlow * 0.25;
+              col += waterColor * surfGlow * 0.15;
+            }
+
+            gl_FragColor = vec4(col, alpha);
+          } else {
+            gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+          }
+        }
+      `;
+
+      const material = new THREE.ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        uniforms: {
+          uTime: { value: 0 },
+          uFill: { value: 0.672 },
+          uBanana: { value: 0.0 },
+        },
+        transparent: true,
+      });
+
+      const plane = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+      scene.add(plane);
+
+      function animate(t) {
+        requestAnimationFrame(animate);
+        material.uniforms.uTime.value = t * 0.001;
+        // Check if banana theme is active
+        material.uniforms.uBanana.value = document.documentElement.classList.contains('theme-banana') ? 1.0 : 0.0;
+        renderer.render(scene, camera);
+      }
+      requestAnimationFrame(animate);
+    })();
+
     // ── Boost Countdown Timer ─────────────────────────────────
     let boostEnd = Date.now() + (2 * 3600 + 47 * 60 + 33) * 1000;
     const timerEls = document.querySelectorAll('.boost-timer');
