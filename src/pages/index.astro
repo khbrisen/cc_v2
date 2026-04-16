@@ -198,9 +198,9 @@ import GameGrid from '../components/GameGrid.astro';
         const mesh = new THREE.Mesh(geometry, fillMat);
         scene.add(mesh);
 
-        // Subtle edge lines in the same color but brighter
+        // Black edge lines
         const edges = new THREE.EdgesGeometry(geometry);
-        const lineMat = new THREE.LineBasicMaterial({ color: color, transparent: true, opacity: 0.5 });
+        const lineMat = new THREE.LineBasicMaterial({ color: 0x000000 });
         const wireframe = new THREE.LineSegments(edges, lineMat);
         scene.add(wireframe);
 
@@ -209,12 +209,12 @@ import GameGrid from '../components/GameGrid.astro';
 
       const cubeCanvas = document.getElementById('cube-canvas');
       if (cubeCanvas && typeof THREE !== 'undefined') {
-        // Neon green cube
-        const cube = createScene(cubeCanvas, () => new THREE.BoxGeometry(1, 1, 1), 0x39ff14);
+        // White cube
+        const cube = createScene(cubeCanvas, () => new THREE.BoxGeometry(1, 1, 1), 0xffffff);
 
-        // Banana yellow pyramid
+        // White pyramid
         const pyramidCanvas = document.getElementById('pyramid-canvas');
-        const pyramid = createScene(pyramidCanvas, () => new THREE.ConeGeometry(0.7, 1.1, 4), 0xffe135);
+        const pyramid = createScene(pyramidCanvas, () => new THREE.ConeGeometry(0.7, 1.1, 4), 0xffffff);
 
         function animate() {
           requestAnimationFrame(animate);
