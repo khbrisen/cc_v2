@@ -34,17 +34,11 @@ import GameGrid from '../components/GameGrid.astro';
     <Sidebar />
 
     <div class="main-content">
+      <!-- Twinkling stars — full page background -->
+      <div class="page-stars"></div>
 
-      <!-- HERO: Night Sky + Shooting Stars + VIP Bar -->
+      <!-- HERO: VIP Bar in the sky -->
       <div class="hero-night-sky">
-        <div class="hero-stars"></div>
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        <div class="shooting-star"></div>
-        <canvas id="stars-canvas"></canvas>
         <VipBar />
       </div>
 
@@ -164,121 +158,6 @@ import GameGrid from '../components/GameGrid.astro';
   <SpinWheel />
 
   <script is:inline>
-    // ── 3D Shooting Stars Canvas ─────────────────────────────
-    (function() {
-      const canvas = document.getElementById('stars-canvas');
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const hero = canvas.parentElement;
-
-      function resize() {
-        canvas.width = hero.offsetWidth;
-        canvas.height = hero.offsetHeight;
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      canvas.style.cssText = 'position:absolute;inset:0;z-index:1;pointer-events:none;';
-
-      // Particle stars (subtle depth layers)
-      const bgStars = [];
-      for (let i = 0; i < 80; i++) {
-        bgStars.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          z: Math.random() * 3 + 0.5,
-          brightness: Math.random() * 0.5 + 0.3,
-          twinkleSpeed: Math.random() * 0.02 + 0.005,
-          twinkleOffset: Math.random() * Math.PI * 2,
-        });
-      }
-
-      // 3D shooting stars
-      const shootingStars = [];
-      function spawnShootingStar() {
-        const fromRight = Math.random() > 0.5;
-        shootingStars.push({
-          x: fromRight ? canvas.width + 50 : -50,
-          y: Math.random() * canvas.height * 0.6,
-          z: Math.random() * 2 + 1,
-          vx: (fromRight ? -1 : 1) * (Math.random() * 6 + 4),
-          vy: Math.random() * 2 + 0.5,
-          life: 1,
-          decay: Math.random() * 0.008 + 0.005,
-          length: Math.random() * 80 + 40,
-          thickness: Math.random() * 1.5 + 0.5,
-        });
-      }
-
-      let lastSpawn = 0;
-      function animate(t) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw background depth stars
-        for (const s of bgStars) {
-          const twinkle = Math.sin(t * s.twinkleSpeed + s.twinkleOffset) * 0.3 + 0.7;
-          const size = s.z * 0.6;
-          const alpha = s.brightness * twinkle;
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255,255,255,${alpha})`;
-          ctx.fill();
-        }
-
-        // Spawn new shooting stars periodically
-        if (t - lastSpawn > 800 + Math.random() * 2000) {
-          spawnShootingStar();
-          lastSpawn = t;
-        }
-
-        // Draw shooting stars with 3D depth
-        for (let i = shootingStars.length - 1; i >= 0; i--) {
-          const s = shootingStars[i];
-          s.x += s.vx * s.z * 0.6;
-          s.y += s.vy * s.z * 0.3;
-          s.life -= s.decay;
-
-          if (s.life <= 0) { shootingStars.splice(i, 1); continue; }
-
-          const tailX = s.x - s.vx * s.length * 0.15;
-          const tailY = s.y - s.vy * s.length * 0.15;
-
-          // Glow
-          const grad = ctx.createLinearGradient(tailX, tailY, s.x, s.y);
-          grad.addColorStop(0, `rgba(255,255,255,0)`);
-          grad.addColorStop(0.7, `rgba(255,255,255,${s.life * 0.4})`);
-          grad.addColorStop(1, `rgba(255,255,255,${s.life * 0.9})`);
-
-          ctx.beginPath();
-          ctx.moveTo(tailX, tailY);
-          ctx.lineTo(s.x, s.y);
-          ctx.strokeStyle = grad;
-          ctx.lineWidth = s.thickness * s.z;
-          ctx.lineCap = 'round';
-          ctx.stroke();
-
-          // Head glow
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, s.thickness * s.z * 1.5, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255,255,255,${s.life * 0.7})`;
-          ctx.fill();
-
-          // Outer glow
-          const glowSize = s.thickness * s.z * 4;
-          const glow = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, glowSize);
-          glow.addColorStop(0, `rgba(255,255,255,${s.life * 0.2})`);
-          glow.addColorStop(1, 'rgba(255,255,255,0)');
-          ctx.beginPath();
-          ctx.arc(s.x, s.y, glowSize, 0, Math.PI * 2);
-          ctx.fillStyle = glow;
-          ctx.fill();
-        }
-
-        requestAnimationFrame(animate);
-      }
-      requestAnimationFrame(animate);
-    })();
-
     // ── Boost Countdown Timer ─────────────────────────────────
     let boostEnd = Date.now() + (2 * 3600 + 47 * 60 + 33) * 1000;
     const timerEls = document.querySelectorAll('.boost-timer');
