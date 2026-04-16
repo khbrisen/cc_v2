@@ -161,7 +161,66 @@ import GameGrid from '../components/GameGrid.astro';
   <VipLevels />
   <SpinWheel />
 
+  <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script is:inline>
+    // ── 3D Level Shapes (Three.js) ────────────────────────────
+    (function() {
+      function createScene(canvas, geometryFn) {
+        const size = 36;
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = size * dpr;
+        canvas.height = size * dpr;
+
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setSize(size, size);
+        renderer.setPixelRatio(dpr);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+        camera.position.z = 3.2;
+
+        const geometry = geometryFn();
+        const edges = new THREE.EdgesGeometry(geometry);
+        const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 });
+        const wireframe = new THREE.LineSegments(edges, lineMat);
+        scene.add(wireframe);
+
+        // Faint fill
+        const fillMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.04, side: THREE.DoubleSide });
+        const mesh = new THREE.Mesh(geometry, fillMat);
+        scene.add(mesh);
+
+        return { renderer, scene, camera, wireframe, mesh };
+      }
+
+      // Cube
+      const cubeCanvas = document.getElementById('cube-canvas');
+      if (cubeCanvas && typeof THREE !== 'undefined') {
+        const cube = createScene(cubeCanvas, () => new THREE.BoxGeometry(1, 1, 1));
+
+        // Pyramid
+        const pyramidCanvas = document.getElementById('pyramid-canvas');
+        const pyramid = createScene(pyramidCanvas, () => new THREE.ConeGeometry(0.7, 1.1, 4));
+
+        function animate() {
+          requestAnimationFrame(animate);
+
+          cube.wireframe.rotation.x += 0.008;
+          cube.wireframe.rotation.y += 0.012;
+          cube.mesh.rotation.x = cube.wireframe.rotation.x;
+          cube.mesh.rotation.y = cube.wireframe.rotation.y;
+          cube.renderer.render(cube.scene, cube.camera);
+
+          pyramid.wireframe.rotation.x += 0.006;
+          pyramid.wireframe.rotation.y -= 0.01;
+          pyramid.mesh.rotation.x = pyramid.wireframe.rotation.x;
+          pyramid.mesh.rotation.y = pyramid.wireframe.rotation.y;
+          pyramid.renderer.render(pyramid.scene, pyramid.camera);
+        }
+        animate();
+      }
+    })();
+
     // ── Boost Countdown Timer ─────────────────────────────────
     let boostEnd = Date.now() + (2 * 3600 + 47 * 60 + 33) * 1000;
     const timerEls = document.querySelectorAll('.boost-timer');
