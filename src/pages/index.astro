@@ -293,53 +293,51 @@ import GameGrid from '../components/GameGrid.astro';
         levelingUp = true;
         draining = true;
         targetFill = 0;
-      }
-
-      function onDrainComplete() {
-        draining = false;
 
         const curNum = levelCurrent;
         const nextNum = levelNext;
 
-        // Slide out
+        // Immediately: slide out level labels + roll denominator
         curNum.classList.add('shift-out-bottom');
         nextNum.classList.add('shift-out-bottom');
 
-        setTimeout(() => {
-          // Advance level
-          currentLevel++;
-          const oldCeil = levelCeil;
-          levelFloor = levelCeil;
-          levelCeil = levelFloor + xpPerLevel;
+        const oldCeil = levelCeil;
+        currentLevel++;
+        levelFloor = levelCeil;
+        levelCeil = levelFloor + xpPerLevel;
 
+        // Roll denominator while draining
+        rollDenominator(oldCeil, levelCeil, 1200);
+
+        // After labels slide out, swap and slide new ones in
+        setTimeout(() => {
           curNum.textContent = currentLevel;
           nextNum.textContent = currentLevel + 1;
 
-          // Reset positions
           curNum.classList.remove('shift-out-bottom');
           nextNum.classList.remove('shift-out-bottom');
           nextNum.classList.add('shift-in-top');
           void nextNum.offsetWidth;
           void curNum.offsetWidth;
 
-          // Animate in
           curNum.classList.add('shift-enter');
           nextNum.classList.remove('shift-in-top');
           nextNum.classList.add('shift-enter');
 
-          // Roll denominator digits from old to new
-          rollDenominator(oldCeil, levelCeil, 800);
-
-          // Start with some water visible (equal to +200 XP)
-          currentFill = 0;
-          targetFill = minFill;
-
           setTimeout(() => {
             curNum.classList.remove('shift-enter');
             nextNum.classList.remove('shift-enter');
-            levelingUp = false;
           }, 650);
         }, 600);
+      }
+
+      function onDrainComplete() {
+        draining = false;
+        // Start new level with base water visible
+        currentFill = 0;
+        targetFill = minFill;
+        updateLabel();
+        levelingUp = false;
       }
 
       // Add XP button
